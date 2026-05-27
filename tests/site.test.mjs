@@ -152,9 +152,12 @@ test("gallery initializer documents source and generated output paths", async ()
   const packageJson = JSON.parse(await readText("package.json"));
 
   assert.doesNotMatch(script, /SOURCE_DEFAULT/);
-  assert.match(script, /process\.argv\[2\]/);
-  assert.match(script, /Usage: npm run gallery:init -- <gallery-source-directory>/);
-  assert.match(script, /RESUME_PDF_FILE_NAME/);
+  assert.match(script, /--gallery-source/);
+  assert.match(script, /--resume-pdf-source/);
+  assert.match(script, /parseArguments/);
+  assert.match(script, /Usage: npm run gallery:init -- --gallery-source <directory> --resume-pdf-source <pdf>/);
+  assert.doesNotMatch(script, /path\.resolve\(ROOT,\s*"\.\."/);
+  assert.doesNotMatch(script, /RESUME_PDF_FILE_NAME/);
   assert.match(script, /RESUME_PDF_SOURCE/);
   assert.match(script, /RESUME_PDF_OUTPUT/);
   assert.match(script, /from "sharp"/);

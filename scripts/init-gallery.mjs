@@ -8,14 +8,10 @@ import ffmpegPath from "ffmpeg-static";
 import sharp from "sharp";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SOURCE_ARG = process.argv[2];
-if (!SOURCE_ARG) {
-  throw new Error("Usage: npm run gallery:init -- <gallery-source-directory>");
-}
-
-const SOURCE_DIR = path.resolve(SOURCE_ARG);
-const RESUME_PDF_FILE_NAME = "\u7b80\u5386-\u5f20\u4ea8-U3D.pdf";
-const RESUME_PDF_SOURCE = path.resolve(ROOT, "..", RESUME_PDF_FILE_NAME);
+const USAGE = "Usage: npm run gallery:init -- --gallery-source <directory> --resume-pdf-source <pdf>";
+const OPTIONS = parseArguments(process.argv.slice(2));
+const SOURCE_DIR = path.resolve(OPTIONS.gallerySource);
+const RESUME_PDF_SOURCE = path.resolve(OPTIONS.resumePdfSource);
 const RESUME_PDF_OUTPUT_RELATIVE = "assets/data/resume.pdf";
 const RESUME_PDF_OUTPUT = path.join(ROOT, ...RESUME_PDF_OUTPUT_RELATIVE.split("/"));
 const GENERATED_GALLERY_ROOT = "assets/gallery";
@@ -73,6 +69,43 @@ await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
 
 console.log(`Generated ${items.length} gallery items from ${SOURCE_DIR}`);
 console.log(`Copied resume PDF from ${RESUME_PDF_SOURCE}`);
+
+function parseArguments(args) {
+  const options = {};
+
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index];
+
+    if (argument === "--gallery-source") {
+      options.gallerySource = readOptionValue(args, index + 1, argument);
+      index += 1;
+      continue;
+    }
+
+    if (argument === "--resume-pdf-source") {
+      options.resumePdfSource = readOptionValue(args, index + 1, argument);
+      index += 1;
+      continue;
+    }
+
+    throw new Error(`${USAGE}\nUnknown argument: ${argument}`);
+  }
+
+  if (!options.gallerySource || !options.resumePdfSource) {
+    throw new Error(USAGE);
+  }
+
+  return options;
+}
+
+function readOptionValue(args, index, option) {
+  const value = args[index];
+  if (!value || value.startsWith("--")) {
+    throw new Error(`${USAGE}\nMissing value for ${option}`);
+  }
+
+  return value;
+}
 
 async function assertDirectory(directory) {
   const directoryStat = await stat(directory);
