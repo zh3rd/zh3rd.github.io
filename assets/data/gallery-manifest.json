@@ -1,12 +1,14 @@
 {
-  "generatedAt": "2026-05-27T08:44:43.677Z",
+  "generatedAt": "2026-05-27T11:06:50.938Z",
   "source": "../gallery",
   "config": {
     "imageFormat": "webp",
     "thumbnailWidth": 480,
     "thumbnailQuality": 72,
     "fullImageMaxWidth": 1600,
-    "fullImageQuality": 84
+    "fullImageQuality": 84,
+    "videoPosterFormat": "webp",
+    "videoPosterCaptureTime": "00:00:00.200"
   },
   "items": [
     {
@@ -17,14 +19,14 @@
       "title": "Screen Recording 20260527 131029 Beaver Blade",
       "bytes": 80311160,
       "src": "assets/gallery/full/BeaverBlade/Screen_Recording_20260527_131029_Beaver Blade.mp4",
-      "thumb": null,
-      "poster": null,
-      "width": null,
-      "height": null,
-      "thumbWidth": null,
-      "thumbHeight": null,
+      "thumb": "assets/gallery/thumbs/BeaverBlade/Screen_Recording_20260527_131029_Beaver Blade.webp",
+      "poster": "assets/gallery/thumbs/BeaverBlade/Screen_Recording_20260527_131029_Beaver Blade.webp",
+      "width": 1080,
+      "height": 2340,
+      "thumbWidth": 222,
+      "thumbHeight": 480,
       "fullBytes": 80311160,
-      "thumbBytes": null
+      "thumbBytes": 17538
     },
     {
       "id": "screenshot-20260527-130204-beaver-blade-21339842",

@@ -1,12 +1,18 @@
 import { createHash } from "node:crypto";
-import { copyFile, mkdir, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { spawn } from "node:child_process";
+import { copyFile, mkdir, mkdtemp, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import ffmpegPath from "ffmpeg-static";
 import sharp from "sharp";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCE_DEFAULT = path.resolve(ROOT, "..", "gallery");
 const SOURCE_DIR = path.resolve(process.argv[2] ?? SOURCE_DEFAULT);
+const RESUME_PDF_FILE_NAME = "\u7b80\u5386-\u5f20\u4ea8-U3D.pdf";
+const RESUME_PDF_SOURCE = path.resolve(ROOT, "..", RESUME_PDF_FILE_NAME);
+const RESUME_PDF_OUTPUT = path.join(ROOT, RESUME_PDF_FILE_NAME);
 const GENERATED_GALLERY_ROOT = "assets/gallery";
 const GENERATED_FULL_ROOT = "assets/gallery/full";
 const GENERATED_THUMB_ROOT = "assets/gallery/thumbs";
@@ -21,12 +27,15 @@ const THUMBNAIL_WIDTH = 480;
 const THUMBNAIL_QUALITY = 72;
 const FULL_IMAGE_MAX_WIDTH = 1600;
 const FULL_IMAGE_QUALITY = 84;
+const VIDEO_POSTER_FORMAT = "webp";
+const VIDEO_POSTER_CAPTURE_TIME = "00:00:00.200";
 
 await assertDirectory(SOURCE_DIR);
 await rm(GALLERY_DIR, { force: true, recursive: true });
 await mkdir(FULL_DIR, { recursive: true });
 await mkdir(THUMB_DIR, { recursive: true });
 await mkdir(path.dirname(MANIFEST_PATH), { recursive: true });
+await copyResumePdf();
 
 const items = [];
 
@@ -41,6 +50,8 @@ const manifest = {
     thumbnailQuality: THUMBNAIL_QUALITY,
     fullImageMaxWidth: FULL_IMAGE_MAX_WIDTH,
     fullImageQuality: FULL_IMAGE_QUALITY,
+    videoPosterFormat: VIDEO_POSTER_FORMAT,
+    videoPosterCaptureTime: VIDEO_POSTER_CAPTURE_TIME,
   },
   items,
 };
@@ -48,12 +59,22 @@ const manifest = {
 await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
 
 console.log(`Generated ${items.length} gallery items from ${SOURCE_DIR}`);
+console.log(`Copied resume PDF from ${RESUME_PDF_SOURCE}`);
 
 async function assertDirectory(directory) {
   const directoryStat = await stat(directory);
   if (!directoryStat.isDirectory()) {
     throw new Error(`Gallery source is not a directory: ${directory}`);
   }
+}
+
+async function copyResumePdf() {
+  const pdfStat = await stat(RESUME_PDF_SOURCE);
+  if (!pdfStat.isFile()) {
+    throw new Error(`Resume PDF source is not a file: ${RESUME_PDF_SOURCE}`);
+  }
+
+  await copyFile(RESUME_PDF_SOURCE, RESUME_PDF_OUTPUT);
 }
 
 // Depth-first traversal: each directory is completed before moving to its sorted siblings.
@@ -130,20 +151,96 @@ async function addImageFile(sourcePath, segments, fileName, bytes) {
 
 async function addVideoFile(sourcePath, segments, fileName, bytes) {
   const outputPath = path.join(FULL_DIR, ...segments, fileName);
+  const posterFileName = `${path.basename(fileName, path.extname(fileName))}.${VIDEO_POSTER_FORMAT}`;
+  const posterPath = path.join(THUMB_DIR, ...segments, posterFileName);
+
   await mkdir(path.dirname(outputPath), { recursive: true });
+  await mkdir(path.dirname(posterPath), { recursive: true });
   await copyFile(sourcePath, outputPath);
+
+  const posterInfo = await createVideoPoster(sourcePath, posterPath);
 
   items.push({
     ...createBaseItem(segments, fileName, "video", bytes),
     src: toSitePath(outputPath),
-    thumb: null,
-    poster: null,
-    width: null,
-    height: null,
-    thumbWidth: null,
-    thumbHeight: null,
+    thumb: toSitePath(posterPath),
+    poster: toSitePath(posterPath),
+    width: posterInfo.width,
+    height: posterInfo.height,
+    thumbWidth: posterInfo.thumbWidth,
+    thumbHeight: posterInfo.thumbHeight,
     fullBytes: bytes,
-    thumbBytes: null,
+    thumbBytes: posterInfo.thumbBytes,
+  });
+}
+
+async function createVideoPoster(sourcePath, posterPath) {
+  const temporaryDirectory = await mkdtemp(path.join(tmpdir(), "resume-gallery-"));
+  const framePath = path.join(temporaryDirectory, "poster-source.jpg");
+
+  try {
+    await extractVideoFrame(sourcePath, framePath);
+
+    const frameMetadata = await sharp(framePath).metadata();
+    const thumbInfo = await sharp(framePath)
+      .resize({
+        width: THUMBNAIL_WIDTH,
+        height: THUMBNAIL_WIDTH,
+        fit: "inside",
+        withoutEnlargement: true,
+      })
+      .webp({ quality: THUMBNAIL_QUALITY, effort: 4 })
+      .toFile(posterPath);
+
+    return {
+      width: frameMetadata.width ?? thumbInfo.width,
+      height: frameMetadata.height ?? thumbInfo.height,
+      thumbWidth: thumbInfo.width,
+      thumbHeight: thumbInfo.height,
+      thumbBytes: thumbInfo.size,
+    };
+  } finally {
+    await rm(temporaryDirectory, { force: true, recursive: true });
+  }
+}
+
+async function extractVideoFrame(sourcePath, framePath) {
+  if (!ffmpegPath) {
+    throw new Error("ffmpeg-static did not provide an ffmpeg binary for this platform.");
+  }
+
+  await runFfmpeg([
+    "-y",
+    "-ss",
+    VIDEO_POSTER_CAPTURE_TIME,
+    "-i",
+    sourcePath,
+    "-frames:v",
+    "1",
+    "-q:v",
+    "2",
+    framePath,
+  ]);
+}
+
+function runFfmpeg(args) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(ffmpegPath, args, { stdio: ["ignore", "ignore", "pipe"] });
+    let stderr = "";
+
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk.toString();
+    });
+
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`ffmpeg exited with code ${code}: ${stderr.trim()}`));
+    });
   });
 }
 

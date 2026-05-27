@@ -48,22 +48,25 @@ a:hover {
 
 .brand-mark {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   gap: 14px;
   color: var(--ink);
   font-family: "Nunito Sans", "Avenir Next", "SF Pro Rounded", "Segoe UI Variable", sans-serif;
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 0;
+  line-height: 1;
 }
 
 .brand-glyph {
   display: inline-flex;
   align-items: center;
+  align-self: baseline;
   gap: 4px;
   width: 22px;
   height: 14px;
-  transform: translateY(-1px);
+  transform: scale(0.85);
+  transform-origin: center;
 }
 
 .brand-chevron {
@@ -249,7 +252,7 @@ li {
 }
 
 .gallery-grid {
-  --gallery-gap: 24px;
+  --gallery-gap: 18px;
 
   display: grid;
   grid-template-columns: repeat(var(--gallery-columns, 1), minmax(0, 1fr));
@@ -261,6 +264,11 @@ li {
   display: grid;
   gap: var(--gallery-gap);
   align-content: start;
+}
+
+.gallery-sentinel {
+  min-height: 1px;
+  pointer-events: none;
 }
 
 .gallery-state {
@@ -401,6 +409,11 @@ li {
 }
 
 .lightbox-meta {
+  position: fixed;
+  top: 22px;
+  left: 30px;
+  right: 86px;
+  z-index: 22;
   min-height: 30px;
   color: #ffffff;
   font-family: "Nunito Sans", "Avenir Next", "SF Pro Rounded", "Segoe UI Variable", sans-serif;
@@ -561,6 +574,12 @@ li {
   .lightbox-media img,
   .lightbox-media video {
     max-height: calc(100vh - 112px);
+  }
+
+  .lightbox-meta {
+    top: 14px;
+    left: 14px;
+    right: 66px;
   }
 }
 

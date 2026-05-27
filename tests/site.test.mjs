@@ -98,19 +98,56 @@ test("gallery manifest uses lightweight thumbnails and optimized full images", a
   assert.ok(videoItems.every((item) => item.poster === null || item.poster.startsWith("assets/gallery/thumbs/")));
 });
 
+test("gallery manifest gives videos generated WebP or JPG cover thumbnails", async () => {
+  const manifest = JSON.parse(await readText("assets/data/gallery-manifest.json"));
+  const videoItems = manifest.items.filter((item) => item.type === "video");
+
+  assert.ok(videoItems.length > 0);
+  assert.equal(manifest.config.videoPosterFormat, "webp");
+
+  for (const item of videoItems) {
+    assert.ok(item.poster);
+    assert.ok(item.poster.startsWith("assets/gallery/thumbs/"));
+    assert.ok(item.poster.endsWith(".webp") || item.poster.endsWith(".jpg"));
+    assert.equal(item.thumb, item.poster);
+    assert.ok(item.thumbWidth > 0);
+    assert.ok(item.thumbHeight > 0);
+    assert.ok(item.thumbBytes > 0);
+  }
+});
+
 test("gallery initializer documents source and generated output paths", async () => {
   const script = await readText("scripts/init-gallery.mjs");
   const packageJson = JSON.parse(await readText("package.json"));
 
   assert.match(script, /SOURCE_DEFAULT/);
+  assert.match(script, /RESUME_PDF_FILE_NAME/);
+  assert.match(script, /RESUME_PDF_SOURCE/);
+  assert.match(script, /RESUME_PDF_OUTPUT/);
   assert.match(script, /from "sharp"/);
   assert.match(script, /THUMBNAIL_WIDTH = 480/);
   assert.match(script, /FULL_IMAGE_MAX_WIDTH = 1600/);
   assert.match(script, /assets\/gallery\/thumbs/);
   assert.match(script, /assets\/gallery\/full/);
   assert.match(script, /assets\/data\/gallery-manifest\.json/);
+  assert.match(script, /VIDEO_POSTER_FORMAT = "webp"/);
+  assert.match(script, /ffmpeg-static/);
+  assert.match(script, /await copyFile\(RESUME_PDF_SOURCE, RESUME_PDF_OUTPUT\)/);
+  assert.match(script, /await rm\(GALLERY_DIR, \{ force: true, recursive: true \}\)/);
   assert.match(script, /depth-first/i);
   assert.ok(packageJson.devDependencies.sharp);
+  assert.ok(packageJson.devDependencies["ffmpeg-static"]);
+});
+
+test("one-click initializer batch runs the gallery init script", async () => {
+  const batch = await readText("init-gallery.bat");
+
+  assert.match(batch, /@echo off/);
+  assert.match(batch, /cd \/d "%~dp0"/);
+  assert.match(batch, /npm install/);
+  assert.match(batch, /npm run gallery:init/);
+  assert.match(batch, /Initialization complete/);
+  assert.match(batch, /pause/);
 });
 
 test("gallery client renders cards and opens media in an overlay", async () => {
@@ -131,10 +168,52 @@ test("gallery client renders cards and opens media in an overlay", async () => {
   assert.match(script, /image\.decoding = "async"/);
   assert.match(script, /openLightbox\(currentIndex - 1\)/);
   assert.match(script, /openLightbox\(currentIndex \+ 1\)/);
-  assert.match(script, /closest\("\.lightbox-panel, \.lightbox-nav, \.lightbox-close"\)/);
+  assert.match(script, /closest\("\.lightbox-media img, \.lightbox-media video, \.lightbox-meta, \.lightbox-nav, \.lightbox-close"\)/);
+  assert.doesNotMatch(script, /closest\("\.lightbox-panel, \.lightbox-nav, \.lightbox-close"\)/);
   assert.doesNotMatch(script, /\.sort\(/);
   assert.match(script, /document\.addEventListener\("keydown"/);
 });
+
+test("gallery client appends masonry cards in scroll-sized batches", async () => {
+  const script = await readText("assets/js/gallery.js");
+
+  assert.match(script, /MAX_COLUMN_COUNT = 7/);
+  assert.match(script, /COLUMN_HEIGHT_TOLERANCE = 1/);
+  assert.match(script, /INITIAL_BATCH_SIZE = 15/);
+  assert.match(script, /SCROLL_BATCH_SIZE/);
+  assert.match(script, /LOAD_MORE_ROOT_MARGIN = "360px 0px"/);
+  assert.match(script, /IntersectionObserver/);
+  assert.match(script, /rootMargin: LOAD_MORE_ROOT_MARGIN/);
+  assert.match(script, /data-gallery-sentinel/);
+  assert.match(script, /renderNextBatch/);
+  assert.match(script, /renderedItemCount/);
+  assert.match(script, /galleryItems\.slice\(renderedItemCount,/);
+  assert.match(script, /syncColumnHeightsFromLayout/);
+  assert.match(script, /getBoundingClientRect\(\)\.height/);
+  assert.match(script, /moveLoadMoreSentinelToShortestColumn/);
+  assert.match(script, /column\.height < shortest\.height - COLUMN_HEIGHT_TOLERANCE/);
+  assert.match(script, /loadMoreSentinel\.remove\(\)/);
+  assert.doesNotMatch(script, /grid\.append\(\.\.\.columns\.map\(\(column\) => column\.element\), loadMoreSentinel\)/);
+  assert.doesNotMatch(script, /renderGallery\(galleryItems\)/);
+});
+
+test("gallery client uses predictable responsive column breakpoints", async () => {
+  const script = await readText("assets/js/gallery.js");
+
+  assert.match(script, /PORTRAIT_PHONE_COLUMN_COUNT = 2/);
+  assert.match(script, /COLUMN_BREAKPOINTS = \[/);
+  assert.match(script, /\{ minWidth: 1920, columns: MAX_COLUMN_COUNT \}/);
+  assert.match(script, /\{ minWidth: 1600, columns: 6 \}/);
+  assert.match(script, /\{ minWidth: 1280, columns: 5 \}/);
+  assert.match(script, /\{ minWidth: 960, columns: 4 \}/);
+  assert.match(script, /\{ minWidth: 720, columns: 3 \}/);
+  assert.match(script, /function isPortraitPhoneViewport\(\)/);
+  assert.match(script, /window\.innerHeight >= window\.innerWidth/);
+  assert.match(script, /return PORTRAIT_PHONE_COLUMN_COUNT/);
+  assert.match(script, /COLUMN_BREAKPOINTS\.find/);
+  assert.doesNotMatch(script, /DESKTOP_COLUMN_WIDTH/);
+}
+);
 
 test("site stylesheet defines paper and print behavior", async () => {
   const css = await readText("assets/css/site.css");
@@ -146,12 +225,16 @@ test("site stylesheet defines paper and print behavior", async () => {
   assert.match(css, /border-radius: 999px/);
   assert.match(css, /\.context-link/);
   assert.match(css, /\.gallery-grid/);
+  assert.match(css, /--gallery-gap: 18px/);
   assert.match(css, /grid-template-columns: repeat\(var\(--gallery-columns, 1\), minmax\(0, 1fr\)\)/);
   assert.match(css, /\.gallery-column/);
   assert.doesNotMatch(css, /column-width/);
+  assert.doesNotMatch(css, /\.gallery-sentinel\s*{[^}]*grid-column:/s);
   assert.match(css, /0 20px 46px rgba\(15, 23, 42, 0\.22\)/);
   assert.match(css, /\.gallery-card:hover/);
   assert.match(css, /\.lightbox/);
+  assert.match(css, /\.lightbox-meta\s*{[^}]*position: fixed;[^}]*top: 22px;[^}]*left: 30px;[^}]*right: 86px;/s);
+  assert.match(css, /\.lightbox-media\s*{[^}]*display: grid;[^}]*place-items: center;/s);
   assert.match(css, /\.lightbox-nav/);
   assert.match(css, /object-fit: contain/);
   assert.match(css, /font-family: "Nunito Sans"/);
@@ -159,4 +242,13 @@ test("site stylesheet defines paper and print behavior", async () => {
   assert.match(css, /@media print/);
   assert.match(css, /font-family: "Noto Serif SC"/);
   assert.match(css, /overflow-wrap: anywhere/);
+});
+
+test("site header keeps the brand glyph optically centered with its label", async () => {
+  const css = await readText("assets/css/site.css");
+
+  assert.match(css, /\.brand-mark\s*{[^}]*align-items: baseline;/s);
+  assert.match(css, /\.brand-mark\s*{[^}]*line-height: 1;/s);
+  assert.match(css, /\.brand-glyph\s*{[^}]*align-self: baseline;[^}]*height: 14px;[^}]*transform: scale\(0\.85\);/s);
+  assert.match(css, /\.brand-glyph\s*{[^}]*transform-origin: center;/s);
 });
