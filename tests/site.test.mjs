@@ -25,7 +25,7 @@ test("resume page exposes the expected static-site contract", async () => {
   assert.match(html, /<title>张亨 - U3D开发工程师<\/title>/);
   assert.match(html, /<link rel="stylesheet" href="assets\/css\/site.css">/);
   assert.match(html, /href="gallery\.html"/);
-  assert.match(html, /href="简历-张亨-U3D\.pdf"/);
+  assert.match(html, /href="assets\/data\/resume\.pdf"/);
   assert.match(html, /class="brand-glyph"/);
   assert.match(html, /<span>RESUME<\/span>/);
   assert.match(html, /张亨/);
@@ -151,7 +151,9 @@ test("gallery initializer documents source and generated output paths", async ()
   const script = await readText("scripts/init-gallery.mjs");
   const packageJson = JSON.parse(await readText("package.json"));
 
-  assert.match(script, /SOURCE_DEFAULT/);
+  assert.doesNotMatch(script, /SOURCE_DEFAULT/);
+  assert.match(script, /process\.argv\[2\]/);
+  assert.match(script, /Usage: npm run gallery:init -- <gallery-source-directory>/);
   assert.match(script, /RESUME_PDF_FILE_NAME/);
   assert.match(script, /RESUME_PDF_SOURCE/);
   assert.match(script, /RESUME_PDF_OUTPUT/);
@@ -161,6 +163,7 @@ test("gallery initializer documents source and generated output paths", async ()
   assert.match(script, /assets\/gallery\/thumbs/);
   assert.match(script, /assets\/gallery\/full/);
   assert.match(script, /assets\/data\/gallery-manifest\.json/);
+  assert.match(script, /assets\/data\/resume\.pdf/);
   assert.match(script, /VIDEO_POSTER_FORMAT = "webp"/);
   assert.match(script, /VIDEO_OUTPUT_EXTENSION = "\.mp4"/);
   assert.match(script, /ffmpeg-static/);
@@ -173,6 +176,13 @@ test("gallery initializer documents source and generated output paths", async ()
 
 test("site repository no longer keeps the external initializer batch", async () => {
   await assert.rejects(() => readText("init-gallery.bat"), { code: "ENOENT" });
+});
+
+test("resume PDF is published from assets data instead of the site root", async () => {
+  const pdf = await readFile(new URL("../assets/data/resume.pdf", import.meta.url));
+
+  assert.ok(pdf.length > 0);
+  await assert.rejects(() => readText("简历-张亨-U3D.pdf"), { code: "ENOENT" });
 });
 
 test("gallery client renders cards and opens media in an overlay", async () => {

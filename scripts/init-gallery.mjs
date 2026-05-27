@@ -8,11 +8,16 @@ import ffmpegPath from "ffmpeg-static";
 import sharp from "sharp";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SOURCE_DEFAULT = path.resolve(ROOT, "..", "gallery");
-const SOURCE_DIR = path.resolve(process.argv[2] ?? SOURCE_DEFAULT);
+const SOURCE_ARG = process.argv[2];
+if (!SOURCE_ARG) {
+  throw new Error("Usage: npm run gallery:init -- <gallery-source-directory>");
+}
+
+const SOURCE_DIR = path.resolve(SOURCE_ARG);
 const RESUME_PDF_FILE_NAME = "\u7b80\u5386-\u5f20\u4ea8-U3D.pdf";
 const RESUME_PDF_SOURCE = path.resolve(ROOT, "..", RESUME_PDF_FILE_NAME);
-const RESUME_PDF_OUTPUT = path.join(ROOT, RESUME_PDF_FILE_NAME);
+const RESUME_PDF_OUTPUT_RELATIVE = "assets/data/resume.pdf";
+const RESUME_PDF_OUTPUT = path.join(ROOT, ...RESUME_PDF_OUTPUT_RELATIVE.split("/"));
 const GENERATED_GALLERY_ROOT = "assets/gallery";
 const GENERATED_FULL_ROOT = "assets/gallery/full";
 const GENERATED_THUMB_ROOT = "assets/gallery/thumbs";
