@@ -3,14 +3,263 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=./resume.html">
-  <link rel="canonical" href="./resume.html">
-  <title>Portfolio</title>
+  <title>Signal Garden</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101316;
+      --ink: #f4f1e8;
+      --muted: #aeb6ad;
+      --green: #7ad99b;
+      --gold: #f4c95d;
+      --coral: #ff8f70;
+      --blue: #78b7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(122, 217, 155, 0.22), transparent 24rem),
+        radial-gradient(circle at 86% 22%, rgba(255, 143, 112, 0.16), transparent 20rem),
+        radial-gradient(circle at 54% 92%, rgba(120, 183, 255, 0.16), transparent 24rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 28px;
+    }
+
+    .panel {
+      width: min(760px, 100%);
+      border: 1px solid rgba(244, 241, 232, 0.16);
+      border-radius: 8px;
+      background: rgba(16, 19, 22, 0.68);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(18px);
+      padding: clamp(24px, 6vw, 56px);
+    }
+
+    .eyebrow {
+      margin: 0 0 20px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 10ch;
+      margin: 0;
+      font-size: clamp(48px, 10vw, 104px);
+      line-height: 0.88;
+      letter-spacing: 0;
+    }
+
+    .signal {
+      max-width: 44rem;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2.6vw, 22px);
+      line-height: 1.55;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    button {
+      min-height: 44px;
+      border: 1px solid rgba(244, 241, 232, 0.18);
+      border-radius: 8px;
+      background: var(--ink);
+      color: var(--bg);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      padding: 0 18px;
+    }
+
+    .chip {
+      display: inline-grid;
+      min-height: 44px;
+      place-items: center;
+      border: 1px solid rgba(244, 241, 232, 0.16);
+      border-radius: 999px;
+      color: var(--ink);
+      padding: 0 16px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 38px;
+    }
+
+    .metric {
+      border-left: 2px solid var(--gold);
+      padding-left: 12px;
+    }
+
+    .metric:nth-child(2) {
+      border-color: var(--coral);
+    }
+
+    .metric:nth-child(3) {
+      border-color: var(--blue);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--ink);
+      font-size: 22px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        overflow: auto;
+      }
+
+      main {
+        place-items: stretch;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+  <canvas aria-hidden="true"></canvas>
+  <main>
+    <section class="panel" aria-labelledby="title">
+      <p class="eyebrow">tiny browser observatory</p>
+      <h1 id="title">Signal Garden</h1>
+      <p class="signal" data-line>
+        A pocket sky is growing here: no names, no backstory, just drifting points that keep finding small patterns.
+      </p>
+      <div class="controls">
+        <button type="button" data-reroll>Shuffle the sky</button>
+        <span class="chip" data-seed>seed 0000</span>
+      </div>
+      <div class="metrics" aria-label="Current signal readings">
+        <p class="metric"><strong data-count>42</strong><span>points awake</span></p>
+        <p class="metric"><strong data-radius>18</strong><span>soft orbits</span></p>
+        <p class="metric"><strong data-hum>quiet</strong><span>room tone</span></p>
+      </div>
+    </section>
+  </main>
   <script>
-    window.location.replace("./resume.html");
+    const canvas = document.querySelector("canvas");
+    const context = canvas.getContext("2d");
+    const line = document.querySelector("[data-line]");
+    const seedLabel = document.querySelector("[data-seed]");
+    const countLabel = document.querySelector("[data-count]");
+    const radiusLabel = document.querySelector("[data-radius]");
+    const humLabel = document.querySelector("[data-hum]");
+    const phrases = [
+      "A pocket sky is growing here: no names, no backstory, just drifting points that keep finding small patterns.",
+      "The page is practicing weather without clouds, making tiny forecasts out of dots and patience.",
+      "Every shuffle invents a harmless constellation, then lets it forget what it was trying to be.",
+      "This is a lobby for stray signals: they arrive quietly, glow a little, and move on."
+    ];
+    const hums = ["quiet", "bright", "soft", "curious"];
+    let points = [];
+    let seed = 0;
+    let animationId = 0;
+
+    function random() {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    }
+
+    function resize() {
+      const pixelRatio = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(window.innerWidth * pixelRatio);
+      canvas.height = Math.floor(window.innerHeight * pixelRatio);
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    }
+
+    function reseed() {
+      seed = Math.floor(Math.random() * 9000) + 1000;
+      const total = Math.floor(34 + random() * 30);
+      const orbit = Math.floor(12 + random() * 18);
+      points = Array.from({ length: total }, () => ({
+        x: random() * window.innerWidth,
+        y: random() * window.innerHeight,
+        r: 1.4 + random() * 2.8,
+        vx: -0.24 + random() * 0.48,
+        vy: -0.18 + random() * 0.36,
+        hue: 70 + random() * 170
+      }));
+      seedLabel.textContent = `seed ${seed}`;
+      countLabel.textContent = String(total);
+      radiusLabel.textContent = String(orbit);
+      humLabel.textContent = hums[Math.floor(random() * hums.length)];
+      line.textContent = phrases[Math.floor(random() * phrases.length)];
+    }
+
+    function draw() {
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const point of points) {
+        point.x += point.vx;
+        point.y += point.vy;
+        if (point.x < -20) point.x = window.innerWidth + 20;
+        if (point.x > window.innerWidth + 20) point.x = -20;
+        if (point.y < -20) point.y = window.innerHeight + 20;
+        if (point.y > window.innerHeight + 20) point.y = -20;
+
+        const gradient = context.createRadialGradient(point.x, point.y, 0, point.x, point.y, point.r * 8);
+        gradient.addColorStop(0, `hsla(${point.hue}, 84%, 72%, 0.9)`);
+        gradient.addColorStop(1, `hsla(${point.hue}, 84%, 72%, 0)`);
+        context.fillStyle = gradient;
+        context.beginPath();
+        context.arc(point.x, point.y, point.r * 8, 0, Math.PI * 2);
+        context.fill();
+      }
+      animationId = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener("resize", () => {
+      resize();
+      reseed();
+    });
+    document.querySelector("[data-reroll]").addEventListener("click", reseed);
+
+    resize();
+    reseed();
+    draw();
+    window.addEventListener("pagehide", () => cancelAnimationFrame(animationId));
   </script>
-  <p><a href="./resume.html">Open portfolio</a></p>
 </body>
 </html>

@@ -6,6 +6,19 @@ async function readText(path) {
   return readFile(new URL(`../${path}`, import.meta.url), "utf8");
 }
 
+test("home page is a standalone playful landing without personal details", async () => {
+  const html = await readText("index.html");
+
+  assert.match(html, /<canvas\b/);
+  assert.match(html, /data-reroll/);
+  assert.doesNotMatch(html, /http-equiv="refresh"/i);
+  assert.doesNotMatch(html, /window\.location/i);
+  assert.doesNotMatch(html, /resume\.html/i);
+  assert.doesNotMatch(html, /gallery\.html/i);
+  assert.doesNotMatch(html, /张亨|简历|U3D|南京|Beaver Blade|AI Coding/i);
+}
+);
+
 test("resume page exposes the expected static-site contract", async () => {
   const html = await readText("resume.html");
 
