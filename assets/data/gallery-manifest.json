@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T11:06:50.938Z",
+  "generatedAt": "2026-05-27T11:56:27.292Z",
   "source": "../gallery",
   "config": {
     "imageFormat": "webp",
@@ -8,7 +8,11 @@
     "fullImageMaxWidth": 1600,
     "fullImageQuality": 84,
     "videoPosterFormat": "webp",
-    "videoPosterCaptureTime": "00:00:00.200"
+    "videoPosterCaptureTime": "00:00:00.200",
+    "videoOutputExtension": ".mp4",
+    "videoFullMaxWidth": 1280,
+    "videoCrf": "30",
+    "videoPreset": "medium"
   },
   "items": [
     {
@@ -25,8 +29,8 @@
       "height": 2340,
       "thumbWidth": 222,
       "thumbHeight": 480,
-      "fullBytes": 80311160,
-      "thumbBytes": 17538
+      "fullBytes": 18424928,
+      "thumbBytes": 17388
     },
     {
       "id": "screenshot-20260527-130204-beaver-blade-21339842",

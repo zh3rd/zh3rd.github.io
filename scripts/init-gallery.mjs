@@ -29,6 +29,10 @@ const FULL_IMAGE_MAX_WIDTH = 1600;
 const FULL_IMAGE_QUALITY = 84;
 const VIDEO_POSTER_FORMAT = "webp";
 const VIDEO_POSTER_CAPTURE_TIME = "00:00:00.200";
+const VIDEO_OUTPUT_EXTENSION = ".mp4";
+const VIDEO_FULL_MAX_WIDTH = 1280;
+const VIDEO_CRF = "30";
+const VIDEO_PRESET = "medium";
 
 await assertDirectory(SOURCE_DIR);
 await rm(GALLERY_DIR, { force: true, recursive: true });
@@ -52,6 +56,10 @@ const manifest = {
     fullImageQuality: FULL_IMAGE_QUALITY,
     videoPosterFormat: VIDEO_POSTER_FORMAT,
     videoPosterCaptureTime: VIDEO_POSTER_CAPTURE_TIME,
+    videoOutputExtension: VIDEO_OUTPUT_EXTENSION,
+    videoFullMaxWidth: VIDEO_FULL_MAX_WIDTH,
+    videoCrf: VIDEO_CRF,
+    videoPreset: VIDEO_PRESET,
   },
   items,
 };
@@ -150,15 +158,17 @@ async function addImageFile(sourcePath, segments, fileName, bytes) {
 }
 
 async function addVideoFile(sourcePath, segments, fileName, bytes) {
-  const outputPath = path.join(FULL_DIR, ...segments, fileName);
+  const outputFileName = `${path.basename(fileName, path.extname(fileName))}${VIDEO_OUTPUT_EXTENSION}`;
+  const outputPath = path.join(FULL_DIR, ...segments, outputFileName);
   const posterFileName = `${path.basename(fileName, path.extname(fileName))}.${VIDEO_POSTER_FORMAT}`;
   const posterPath = path.join(THUMB_DIR, ...segments, posterFileName);
 
   await mkdir(path.dirname(outputPath), { recursive: true });
   await mkdir(path.dirname(posterPath), { recursive: true });
-  await copyFile(sourcePath, outputPath);
+  await compressVideo(sourcePath, outputPath);
 
-  const posterInfo = await createVideoPoster(sourcePath, posterPath);
+  const outputStat = await stat(outputPath);
+  const posterInfo = await createVideoPoster(outputPath, posterPath);
 
   items.push({
     ...createBaseItem(segments, fileName, "video", bytes),
@@ -169,9 +179,37 @@ async function addVideoFile(sourcePath, segments, fileName, bytes) {
     height: posterInfo.height,
     thumbWidth: posterInfo.thumbWidth,
     thumbHeight: posterInfo.thumbHeight,
-    fullBytes: bytes,
+    fullBytes: outputStat.size,
     thumbBytes: posterInfo.thumbBytes,
   });
+}
+
+async function compressVideo(sourcePath, outputPath) {
+  if (!ffmpegPath) {
+    throw new Error("ffmpeg-static did not provide an ffmpeg binary for this platform.");
+  }
+
+  await runFfmpeg([
+    "-y",
+    "-i",
+    sourcePath,
+    "-map",
+    "0:v:0",
+    "-an",
+    "-vf",
+    `scale=w=min(${VIDEO_FULL_MAX_WIDTH}\\,iw):h=-2`,
+    "-c:v",
+    "libx264",
+    "-preset",
+    VIDEO_PRESET,
+    "-crf",
+    VIDEO_CRF,
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    outputPath,
+  ]);
 }
 
 async function createVideoPoster(sourcePath, posterPath) {

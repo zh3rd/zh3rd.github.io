@@ -129,6 +129,24 @@ test("gallery manifest gives videos generated WebP or JPG cover thumbnails", asy
   }
 });
 
+test("gallery initializer compresses videos into generated MP4 assets", async () => {
+  const script = await readText("scripts/init-gallery.mjs");
+  const manifest = JSON.parse(await readText("assets/data/gallery-manifest.json"));
+  const videoItems = manifest.items.filter((item) => item.type === "video");
+
+  assert.match(script, /VIDEO_FULL_MAX_WIDTH = 1280/);
+  assert.match(script, /VIDEO_CRF = "30"/);
+  assert.match(script, /compressVideo/);
+  assert.match(script, /"-c:v",\s*"libx264"/);
+  assert.doesNotMatch(script, /await copyFile\(sourcePath, outputPath\)/);
+
+  assert.ok(videoItems.length > 0);
+  assert.ok(videoItems.every((item) => item.src.startsWith("assets/gallery/full/")));
+  assert.ok(videoItems.every((item) => item.src.endsWith(".mp4")));
+  assert.ok(videoItems.every((item) => item.fullBytes > 0 && item.fullBytes < item.bytes));
+}
+);
+
 test("gallery initializer documents source and generated output paths", async () => {
   const script = await readText("scripts/init-gallery.mjs");
   const packageJson = JSON.parse(await readText("package.json"));
@@ -144,6 +162,7 @@ test("gallery initializer documents source and generated output paths", async ()
   assert.match(script, /assets\/gallery\/full/);
   assert.match(script, /assets\/data\/gallery-manifest\.json/);
   assert.match(script, /VIDEO_POSTER_FORMAT = "webp"/);
+  assert.match(script, /VIDEO_OUTPUT_EXTENSION = "\.mp4"/);
   assert.match(script, /ffmpeg-static/);
   assert.match(script, /await copyFile\(RESUME_PDF_SOURCE, RESUME_PDF_OUTPUT\)/);
   assert.match(script, /await rm\(GALLERY_DIR, \{ force: true, recursive: true \}\)/);
@@ -152,15 +171,8 @@ test("gallery initializer documents source and generated output paths", async ()
   assert.ok(packageJson.devDependencies["ffmpeg-static"]);
 });
 
-test("one-click initializer batch runs the gallery init script", async () => {
-  const batch = await readText("init-gallery.bat");
-
-  assert.match(batch, /@echo off/);
-  assert.match(batch, /cd \/d "%~dp0"/);
-  assert.match(batch, /npm install/);
-  assert.match(batch, /npm run gallery:init/);
-  assert.match(batch, /Initialization complete/);
-  assert.match(batch, /pause/);
+test("site repository no longer keeps the external initializer batch", async () => {
+  await assert.rejects(() => readText("init-gallery.bat"), { code: "ENOENT" });
 });
 
 test("gallery client renders cards and opens media in an overlay", async () => {
