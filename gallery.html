@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gallery - 张亨</title>
+    <meta name="description" content="张亨的游戏开发作品图集。">
+    <link rel="stylesheet" href="assets/css/site.css">
+  </head>
+  <body class="page page-gallery">
+    <header class="site-frame" aria-label="Page links">
+      <a class="brand-mark" href="gallery.html" aria-label="Game dev gallery">
+        <span class="brand-glyph" aria-hidden="true">
+          <span class="brand-chevron brand-chevron-left"></span>
+          <span class="brand-chevron brand-chevron-right"></span>
+        </span>
+        <span>GALLERY</span>
+      </a>
+      <a class="context-link" href="resume.html">Back to Resume</a>
+    </header>
+
+    <main class="gallery-shell" aria-label="Gallery">
+      <section class="gallery-grid" data-gallery-grid aria-live="polite">
+        <p class="gallery-state" data-gallery-state>Loading gallery...</p>
+      </section>
+    </main>
+
+    <div class="lightbox" data-lightbox hidden>
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close preview"></button>
+      <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="Gallery preview">
+        <div class="lightbox-meta">
+          <span class="lightbox-folder" data-lightbox-folder></span>
+          <span class="lightbox-title" data-lightbox-title></span>
+        </div>
+        <div class="lightbox-media" data-lightbox-media></div>
+      </div>
+      <button class="lightbox-nav lightbox-prev" type="button" data-lightbox-prev aria-label="Previous item"></button>
+      <button class="lightbox-nav lightbox-next" type="button" data-lightbox-next aria-label="Next item"></button>
+    </div>
+
+    <script src="assets/js/gallery.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "zh3rd.github.io",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "gallery:init": "node scripts/init-gallery.mjs",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
+}
