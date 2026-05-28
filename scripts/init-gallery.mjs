@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
-import { copyFile, mkdir, mkdtemp, readdir, rm, stat, writeFile } from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { copyFile, mkdir, mkdtemp, readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,42 +36,63 @@ const VIDEO_FULL_MAX_DIMENSION = 1280;
 const VIDEO_OUTPUT_FPS = 30;
 const VIDEO_CRF = "30";
 const VIDEO_PRESET = "medium";
-
-await assertDirectory(SOURCE_DIR);
-await rm(GALLERY_DIR, { force: true, recursive: true });
-await mkdir(FULL_DIR, { recursive: true });
-await mkdir(THUMB_DIR, { recursive: true });
-await mkdir(path.dirname(MANIFEST_PATH), { recursive: true });
-await copyResumePdf();
-
-const items = [];
-
-await walkDepthFirst(SOURCE_DIR, []);
-
-const manifest = {
-  generatedAt: new Date().toISOString(),
-  source: path.relative(ROOT, SOURCE_DIR).split(path.sep).join("/"),
-  config: {
-    imageFormat: "webp",
-    thumbnailWidth: THUMBNAIL_WIDTH,
-    thumbnailQuality: THUMBNAIL_QUALITY,
-    fullImageMaxWidth: FULL_IMAGE_MAX_WIDTH,
-    fullImageQuality: FULL_IMAGE_QUALITY,
-    videoPosterFormat: VIDEO_POSTER_FORMAT,
-    videoPosterCaptureTime: VIDEO_POSTER_CAPTURE_TIME,
-    videoOutputExtension: VIDEO_OUTPUT_EXTENSION,
-    videoFullMaxDimension: VIDEO_FULL_MAX_DIMENSION,
-    videoOutputFps: VIDEO_OUTPUT_FPS,
-    videoCrf: VIDEO_CRF,
-    videoPreset: VIDEO_PRESET,
-  },
-  items,
+const SOURCE_HASH_ALGORITHM = "md5";
+const MANIFEST_CONFIG = {
+  imageFormat: "webp",
+  thumbnailWidth: THUMBNAIL_WIDTH,
+  thumbnailQuality: THUMBNAIL_QUALITY,
+  fullImageMaxWidth: FULL_IMAGE_MAX_WIDTH,
+  fullImageQuality: FULL_IMAGE_QUALITY,
+  videoPosterFormat: VIDEO_POSTER_FORMAT,
+  videoPosterCaptureTime: VIDEO_POSTER_CAPTURE_TIME,
+  videoOutputExtension: VIDEO_OUTPUT_EXTENSION,
+  videoFullMaxDimension: VIDEO_FULL_MAX_DIMENSION,
+  videoOutputFps: VIDEO_OUTPUT_FPS,
+  videoCrf: VIDEO_CRF,
+  videoPreset: VIDEO_PRESET,
+  sourceHashAlgorithm: SOURCE_HASH_ALGORITHM,
 };
 
-await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
+await assertDirectory(SOURCE_DIR);
+const previousManifest = await readPreviousManifest();
+const previousManifestIndex = createPreviousManifestIndex(previousManifest);
+const galleryBuildDir = await createGalleryBuildDirectory();
+const outputFullDir = path.join(galleryBuildDir, "full");
+const outputThumbDir = path.join(galleryBuildDir, "thumbs");
+const items = [];
+let reusedCount = 0;
+let processedCount = 0;
+let generationSucceeded = false;
 
-console.log(`Generated ${items.length} gallery items from ${SOURCE_DIR}`);
-console.log(`Copied resume PDF from ${RESUME_PDF_SOURCE}`);
+try {
+  await mkdir(outputFullDir, { recursive: true });
+  await mkdir(outputThumbDir, { recursive: true });
+  await mkdir(path.dirname(MANIFEST_PATH), { recursive: true });
+  await copyResumePdf();
+
+  await walkDepthFirst(SOURCE_DIR, []);
+
+  const manifest = {
+    generatedAt: new Date().toISOString(),
+    source: path.relative(ROOT, SOURCE_DIR).split(path.sep).join("/"),
+    config: MANIFEST_CONFIG,
+    cache: {
+      reusedItems: reusedCount,
+      processedItems: processedCount,
+    },
+    items,
+  };
+
+  await publishGalleryBuild(galleryBuildDir);
+  await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
+  generationSucceeded = true;
+
+  console.log(`Generated ${items.length} gallery items from ${SOURCE_DIR}`);
+  console.log(`Reused ${reusedCount} cached gallery items; processed ${processedCount}.`);
+  console.log(`Copied resume PDF from ${RESUME_PDF_SOURCE}`);
+} finally {
+  await cleanupGalleryBuild(galleryBuildDir, generationSucceeded);
+}
 
 function parseArguments(args) {
   const options = {};
@@ -144,19 +166,27 @@ async function addMediaFile(directory, segments, fileName) {
   const type = getMediaType(fileName);
   const sourcePath = path.join(directory, fileName);
   const sourceStat = await stat(sourcePath);
+  const sourceFile = await createSourceFileInfo(sourcePath, sourceStat);
 
-  if (type === "image") {
-    await addImageFile(sourcePath, segments, fileName, sourceStat.size);
+  const cachedItem = await tryReuseCachedMedia(type, sourceFile, segments, fileName);
+  if (cachedItem) {
+    items.push(cachedItem);
+    reusedCount += 1;
     return;
   }
 
-  await addVideoFile(sourcePath, segments, fileName, sourceStat.size);
+  processedCount += 1;
+
+  if (type === "image") {
+    await addImageFile(sourcePath, segments, fileName, sourceStat.size, sourceFile);
+    return;
+  }
+
+  await addVideoFile(sourcePath, segments, fileName, sourceStat.size, sourceFile);
 }
 
-async function addImageFile(sourcePath, segments, fileName, bytes) {
-  const outputFileName = `${path.basename(fileName, path.extname(fileName))}.webp`;
-  const fullPath = path.join(FULL_DIR, ...segments, outputFileName);
-  const thumbPath = path.join(THUMB_DIR, ...segments, outputFileName);
+async function addImageFile(sourcePath, segments, fileName, bytes, sourceFile) {
+  const { fullPath, thumbPath, fullSitePath, thumbSitePath } = createImageOutputPaths(segments, fileName);
 
   await mkdir(path.dirname(fullPath), { recursive: true });
   await mkdir(path.dirname(thumbPath), { recursive: true });
@@ -184,9 +214,9 @@ async function addImageFile(sourcePath, segments, fileName, bytes) {
     .toFile(thumbPath);
 
   items.push({
-    ...createBaseItem(segments, fileName, "image", bytes),
-    src: toSitePath(fullPath),
-    thumb: toSitePath(thumbPath),
+    ...createBaseItem(segments, fileName, "image", bytes, sourceFile),
+    src: fullSitePath,
+    thumb: thumbSitePath,
     poster: null,
     width: fullInfo.width,
     height: fullInfo.height,
@@ -197,11 +227,8 @@ async function addImageFile(sourcePath, segments, fileName, bytes) {
   });
 }
 
-async function addVideoFile(sourcePath, segments, fileName, bytes) {
-  const outputFileName = `${path.basename(fileName, path.extname(fileName))}${VIDEO_OUTPUT_EXTENSION}`;
-  const outputPath = path.join(FULL_DIR, ...segments, outputFileName);
-  const posterFileName = `${path.basename(fileName, path.extname(fileName))}.${VIDEO_POSTER_FORMAT}`;
-  const posterPath = path.join(THUMB_DIR, ...segments, posterFileName);
+async function addVideoFile(sourcePath, segments, fileName, bytes, sourceFile) {
+  const { outputPath, posterPath, outputSitePath, posterSitePath } = createVideoOutputPaths(segments, fileName);
 
   await mkdir(path.dirname(outputPath), { recursive: true });
   await mkdir(path.dirname(posterPath), { recursive: true });
@@ -211,10 +238,10 @@ async function addVideoFile(sourcePath, segments, fileName, bytes) {
   const posterInfo = await createVideoPoster(outputPath, posterPath);
 
   items.push({
-    ...createBaseItem(segments, fileName, "video", bytes),
-    src: toSitePath(outputPath),
-    thumb: toSitePath(posterPath),
-    poster: toSitePath(posterPath),
+    ...createBaseItem(segments, fileName, "video", bytes, sourceFile),
+    src: outputSitePath,
+    thumb: posterSitePath,
+    poster: posterSitePath,
     width: posterInfo.width,
     height: posterInfo.height,
     thumbWidth: posterInfo.thumbWidth,
@@ -322,7 +349,233 @@ function runFfmpeg(args) {
   });
 }
 
-function createBaseItem(segments, fileName, type, bytes) {
+async function readPreviousManifest() {
+  try {
+    return JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
+  } catch (error) {
+    if (error.code === "ENOENT" || error instanceof SyntaxError) {
+      return null;
+    }
+
+    throw error;
+  }
+}
+
+function createPreviousManifestIndex(manifest) {
+  const index = new Map();
+  if (!manifestConfigMatches(manifest?.config) || !Array.isArray(manifest?.items)) {
+    return index;
+  }
+
+  for (const item of manifest.items) {
+    if (!item?.sourceFile || !item.type) {
+      continue;
+    }
+
+    const cacheKey = createSourceCacheKey(item.type, item.sourceFile);
+    if (cacheKey && !index.has(cacheKey)) {
+      index.set(cacheKey, item);
+    }
+  }
+
+  return index;
+}
+
+function manifestConfigMatches(config) {
+  if (!config) {
+    return false;
+  }
+
+  return Object.entries(MANIFEST_CONFIG).every(([key, value]) => config[key] === value);
+}
+
+async function createGalleryBuildDirectory() {
+  await mkdir(path.dirname(GALLERY_DIR), { recursive: true });
+  return mkdtemp(path.join(path.dirname(GALLERY_DIR), ".gallery-build-"));
+}
+
+async function publishGalleryBuild(buildDirectory) {
+  await retryFileOperation(() => rm(GALLERY_DIR, { force: true, recursive: true }));
+  await retryFileOperation(() => rename(buildDirectory, GALLERY_DIR));
+}
+
+async function cleanupGalleryBuild(buildDirectory, generationSucceeded) {
+  if (!generationSucceeded) {
+    await rm(buildDirectory, { force: true, recursive: true });
+  }
+}
+
+async function retryFileOperation(operation) {
+  let lastError;
+
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      if (!["EBUSY", "ENOTEMPTY", "EPERM"].includes(error.code)) {
+        throw error;
+      }
+
+      await new Promise((resolve) => {
+        setTimeout(resolve, 250 * (attempt + 1));
+      });
+    }
+  }
+
+  throw lastError;
+}
+
+async function createSourceFileInfo(sourcePath, sourceStat) {
+  return {
+    path: path.relative(SOURCE_DIR, sourcePath).split(path.sep).join("/"),
+    bytes: sourceStat.size,
+    mtimeMs: sourceStat.mtimeMs,
+    hashAlgorithm: SOURCE_HASH_ALGORITHM,
+    md5: await hashFile(sourcePath),
+  };
+}
+
+function hashFile(filePath) {
+  return new Promise((resolve, reject) => {
+    const hash = createHash(SOURCE_HASH_ALGORITHM);
+    const stream = createReadStream(filePath);
+
+    stream.on("data", (chunk) => hash.update(chunk));
+    stream.on("error", reject);
+    stream.on("end", () => resolve(hash.digest("hex")));
+  });
+}
+
+async function tryReuseCachedMedia(type, sourceFile, segments, fileName) {
+  const previousItem = previousManifestIndex.get(createSourceCacheKey(type, sourceFile));
+  if (!previousItem) {
+    return null;
+  }
+
+  if (type === "image") {
+    return tryReuseCachedImage(previousItem, sourceFile, segments, fileName);
+  }
+
+  return tryReuseCachedVideo(previousItem, sourceFile, segments, fileName);
+}
+
+async function tryReuseCachedImage(previousItem, sourceFile, segments, fileName) {
+  const { fullPath, thumbPath, fullSitePath, thumbSitePath } = createImageOutputPaths(segments, fileName);
+  const fullStat = await copyCachedOutput(previousItem.src, fullPath);
+  const thumbStat = await copyCachedOutput(previousItem.thumb, thumbPath);
+
+  if (!fullStat || !thumbStat) {
+    await rm(fullPath, { force: true });
+    await rm(thumbPath, { force: true });
+    return null;
+  }
+
+  return {
+    ...createBaseItem(segments, fileName, "image", sourceFile.bytes, sourceFile),
+    src: fullSitePath,
+    thumb: thumbSitePath,
+    poster: null,
+    width: previousItem.width,
+    height: previousItem.height,
+    thumbWidth: previousItem.thumbWidth,
+    thumbHeight: previousItem.thumbHeight,
+    fullBytes: fullStat.size,
+    thumbBytes: thumbStat.size,
+  };
+}
+
+async function tryReuseCachedVideo(previousItem, sourceFile, segments, fileName) {
+  const { outputPath, posterPath, outputSitePath, posterSitePath } = createVideoOutputPaths(segments, fileName);
+  const fullStat = await copyCachedOutput(previousItem.src, outputPath);
+  const thumbStat = await copyCachedOutput(previousItem.poster ?? previousItem.thumb, posterPath);
+
+  if (!fullStat || !thumbStat) {
+    await rm(outputPath, { force: true });
+    await rm(posterPath, { force: true });
+    return null;
+  }
+
+  return {
+    ...createBaseItem(segments, fileName, "video", sourceFile.bytes, sourceFile),
+    src: outputSitePath,
+    thumb: posterSitePath,
+    poster: posterSitePath,
+    width: previousItem.width,
+    height: previousItem.height,
+    thumbWidth: previousItem.thumbWidth,
+    thumbHeight: previousItem.thumbHeight,
+    fullBytes: fullStat.size,
+    thumbBytes: thumbStat.size,
+  };
+}
+
+async function copyCachedOutput(sitePath, outputPath) {
+  if (!sitePath?.startsWith(`${GENERATED_GALLERY_ROOT}/`)) {
+    return null;
+  }
+
+  const relativePath = sitePath.slice(GENERATED_GALLERY_ROOT.length + 1);
+  const cachedPath = path.join(GALLERY_DIR, ...relativePath.split("/"));
+
+  try {
+    const cachedStat = await stat(cachedPath);
+    if (!cachedStat.isFile() || cachedStat.size <= 0) {
+      return null;
+    }
+
+    await mkdir(path.dirname(outputPath), { recursive: true });
+    await copyFile(cachedPath, outputPath);
+    return stat(outputPath);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return null;
+    }
+
+    throw error;
+  }
+}
+
+function createImageOutputPaths(segments, fileName) {
+  const outputFileName = `${path.basename(fileName, path.extname(fileName))}.webp`;
+  const fullSitePath = toSitePath(path.join(FULL_DIR, ...segments, outputFileName));
+  const thumbSitePath = toSitePath(path.join(THUMB_DIR, ...segments, outputFileName));
+
+  return {
+    fullPath: path.join(outputFullDir, ...segments, outputFileName),
+    thumbPath: path.join(outputThumbDir, ...segments, outputFileName),
+    fullSitePath,
+    thumbSitePath,
+  };
+}
+
+function createVideoOutputPaths(segments, fileName) {
+  const outputFileName = `${path.basename(fileName, path.extname(fileName))}${VIDEO_OUTPUT_EXTENSION}`;
+  const posterFileName = `${path.basename(fileName, path.extname(fileName))}.${VIDEO_POSTER_FORMAT}`;
+  const outputSitePath = toSitePath(path.join(FULL_DIR, ...segments, outputFileName));
+  const posterSitePath = toSitePath(path.join(THUMB_DIR, ...segments, posterFileName));
+
+  return {
+    outputPath: path.join(outputFullDir, ...segments, outputFileName),
+    posterPath: path.join(outputThumbDir, ...segments, posterFileName),
+    outputSitePath,
+    posterSitePath,
+  };
+}
+
+function createSourceCacheKey(type, sourceFile) {
+  if (
+    sourceFile?.hashAlgorithm !== SOURCE_HASH_ALGORITHM ||
+    !sourceFile.md5 ||
+    typeof sourceFile.bytes !== "number"
+  ) {
+    return null;
+  }
+
+  return `${type}:${sourceFile.bytes}:${sourceFile.md5}`;
+}
+
+function createBaseItem(segments, fileName, type, bytes, sourceFile) {
   return {
     id: createId([...segments, fileName].join("/")),
     type,
@@ -330,6 +583,7 @@ function createBaseItem(segments, fileName, type, bytes) {
     folderPath: segments.join("/"),
     title: path.basename(fileName, path.extname(fileName)).replaceAll("_", " "),
     bytes,
+    sourceFile,
   };
 }
 

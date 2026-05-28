@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T09:16:18.287Z",
+  "generatedAt": "2026-05-28T11:19:02.227Z",
   "source": "../gallery",
   "config": {
     "imageFormat": "webp",
@@ -13,7 +13,12 @@
     "videoFullMaxDimension": 1280,
     "videoOutputFps": 30,
     "videoCrf": "30",
-    "videoPreset": "medium"
+    "videoPreset": "medium",
+    "sourceHashAlgorithm": "md5"
+  },
+  "cache": {
+    "reusedItems": 85,
+    "processedItems": 0
   },
   "items": [
     {
@@ -23,6 +28,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 00",
       "bytes": 80311160,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_00.mp4",
+        "bytes": 80311160,
+        "mtimeMs": 1779858629000,
+        "hashAlgorithm": "md5",
+        "md5": "c9c27007253e2ec564c1803dee226688"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_00.mp4",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_00.webp",
       "poster": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_00.webp",
@@ -40,6 +52,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 01",
       "bytes": 1260666,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_01.jpg",
+        "bytes": 1260666,
+        "mtimeMs": 1779858124000,
+        "hashAlgorithm": "md5",
+        "md5": "8f28ea845c2683704cdbf2684de6f455"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_01.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_01.webp",
       "poster": null,
@@ -57,6 +76,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 02",
       "bytes": 948082,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_02.jpg",
+        "bytes": 948082,
+        "mtimeMs": 1779858131000,
+        "hashAlgorithm": "md5",
+        "md5": "07941808c09fd062310aa06d76c3d5d2"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_02.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_02.webp",
       "poster": null,
@@ -74,6 +100,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 03",
       "bytes": 916935,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_03.jpg",
+        "bytes": 916935,
+        "mtimeMs": 1779858145000,
+        "hashAlgorithm": "md5",
+        "md5": "88a2d90060e7bcc73ce9fea0a68d6982"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_03.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_03.webp",
       "poster": null,
@@ -91,6 +124,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 04",
       "bytes": 1129331,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_04.jpg",
+        "bytes": 1129331,
+        "mtimeMs": 1779858149000,
+        "hashAlgorithm": "md5",
+        "md5": "7a964201f337ded7e52ea8bae43fb9b1"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_04.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_04.webp",
       "poster": null,
@@ -108,6 +148,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 05",
       "bytes": 1296059,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_05.jpg",
+        "bytes": 1296059,
+        "mtimeMs": 1779858167000,
+        "hashAlgorithm": "md5",
+        "md5": "10976446b63cec243b4d228a400b1567"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_05.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_05.webp",
       "poster": null,
@@ -125,6 +172,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 06",
       "bytes": 573506,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_06.jpg",
+        "bytes": 573506,
+        "mtimeMs": 1779858226000,
+        "hashAlgorithm": "md5",
+        "md5": "8b7f9325eb90429bb22b94dd207863fe"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_06.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_06.webp",
       "poster": null,
@@ -142,6 +196,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 07",
       "bytes": 780317,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_07.jpg",
+        "bytes": 780317,
+        "mtimeMs": 1779858249000,
+        "hashAlgorithm": "md5",
+        "md5": "c38d62b45e532f422d6918d83174d73f"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_07.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_07.webp",
       "poster": null,
@@ -159,6 +220,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 08",
       "bytes": 513136,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_08.jpg",
+        "bytes": 513136,
+        "mtimeMs": 1779858272000,
+        "hashAlgorithm": "md5",
+        "md5": "6be41caaa03ad00f0def1f59fce56cc9"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_08.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_08.webp",
       "poster": null,
@@ -176,6 +244,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 09",
       "bytes": 973709,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_09.jpg",
+        "bytes": 973709,
+        "mtimeMs": 1779858418000,
+        "hashAlgorithm": "md5",
+        "md5": "e5124c47c899ce2d78726646871a7ce1"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_09.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_09.webp",
       "poster": null,
@@ -193,6 +268,13 @@
       "folderPath": "BeaverBlade",
       "title": "BeaverBlade 10",
       "bytes": 905554,
+      "sourceFile": {
+        "path": "BeaverBlade/BeaverBlade_10.jpg",
+        "bytes": 905554,
+        "mtimeMs": 1779942252000,
+        "hashAlgorithm": "md5",
+        "md5": "9826cf28407e3f46f6bf6b7fb3f28939"
+      },
       "src": "assets/gallery/full/BeaverBlade/BeaverBlade_10.webp",
       "thumb": "assets/gallery/thumbs/BeaverBlade/BeaverBlade_10.webp",
       "poster": null,
@@ -210,6 +292,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 00",
       "bytes": 362155694,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_00.mp4",
+        "bytes": 362155694,
+        "mtimeMs": 1779925963000,
+        "hashAlgorithm": "md5",
+        "md5": "ab9efe5a08eec23816c3c20b35c22db1"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_00.mp4",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_00.webp",
       "poster": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_00.webp",
@@ -227,6 +316,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 01",
       "bytes": 207078654,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_01.mp4",
+        "bytes": 207078654,
+        "mtimeMs": 1779926798000,
+        "hashAlgorithm": "md5",
+        "md5": "08394c7f1d4a22458a0b213f98abbfce"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_01.mp4",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_01.webp",
       "poster": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_01.webp",
@@ -244,6 +340,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 02",
       "bytes": 2020286,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_02.jpg",
+        "bytes": 2020286,
+        "mtimeMs": 1779926832000,
+        "hashAlgorithm": "md5",
+        "md5": "f6d3c1120a1106ff07acad58cc2de3b3"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_02.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_02.webp",
       "poster": null,
@@ -261,6 +364,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 03",
       "bytes": 1632688,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_03.jpg",
+        "bytes": 1632688,
+        "mtimeMs": 1779625787000,
+        "hashAlgorithm": "md5",
+        "md5": "58f142b043e9f7adc7873523d8ea54bc"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_03.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_03.webp",
       "poster": null,
@@ -278,6 +388,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 04",
       "bytes": 1596938,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_04.jpg",
+        "bytes": 1596938,
+        "mtimeMs": 1779625531000,
+        "hashAlgorithm": "md5",
+        "md5": "2768c385d34e6101dc06406e1aa01c26"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_04.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_04.webp",
       "poster": null,
@@ -295,6 +412,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 05",
       "bytes": 1823393,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_05.jpg",
+        "bytes": 1823393,
+        "mtimeMs": 1779625556000,
+        "hashAlgorithm": "md5",
+        "md5": "aad6a0efbe9fb7854198e554f7e1eeeb"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_05.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_05.webp",
       "poster": null,
@@ -312,6 +436,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 06",
       "bytes": 1225016,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_06.jpg",
+        "bytes": 1225016,
+        "mtimeMs": 1779625643000,
+        "hashAlgorithm": "md5",
+        "md5": "d7f74ae5b7c7e63cce81deb72004a6fd"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_06.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_06.webp",
       "poster": null,
@@ -329,6 +460,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 07",
       "bytes": 1310838,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_07.jpg",
+        "bytes": 1310838,
+        "mtimeMs": 1779625685000,
+        "hashAlgorithm": "md5",
+        "md5": "73f2ed882028bad005c631217f69e16b"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_07.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_07.webp",
       "poster": null,
@@ -346,6 +484,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 08",
       "bytes": 1660527,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_08.jpg",
+        "bytes": 1660527,
+        "mtimeMs": 1779625729000,
+        "hashAlgorithm": "md5",
+        "md5": "8e1d5095f714ab75b93e53805849fd7b"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_08.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_08.webp",
       "poster": null,
@@ -363,6 +508,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 09",
       "bytes": 1577467,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_09.jpg",
+        "bytes": 1577467,
+        "mtimeMs": 1779625736000,
+        "hashAlgorithm": "md5",
+        "md5": "5fa8a5f4b9170db327babb983f98c4d7"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_09.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_09.webp",
       "poster": null,
@@ -380,6 +532,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 10",
       "bytes": 2030850,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_10.jpg",
+        "bytes": 2030850,
+        "mtimeMs": 1779625745000,
+        "hashAlgorithm": "md5",
+        "md5": "29d17249974b9d429286133d89c052f8"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_10.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_10.webp",
       "poster": null,
@@ -397,6 +556,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 11",
       "bytes": 1523203,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_11.jpg",
+        "bytes": 1523203,
+        "mtimeMs": 1779625756000,
+        "hashAlgorithm": "md5",
+        "md5": "b7c7954ceefab763d493b525e2c7a3b3"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_11.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_11.webp",
       "poster": null,
@@ -414,6 +580,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 12",
       "bytes": 1715193,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_12.jpg",
+        "bytes": 1715193,
+        "mtimeMs": 1779625769000,
+        "hashAlgorithm": "md5",
+        "md5": "6e9d2752e0244a568e09ad7c14074b60"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_12.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_12.webp",
       "poster": null,
@@ -431,6 +604,13 @@
       "folderPath": "凡人炼丹",
       "title": "凡人炼丹 13",
       "bytes": 2357569,
+      "sourceFile": {
+        "path": "凡人炼丹/凡人炼丹_13.jpg",
+        "bytes": 2357569,
+        "mtimeMs": 1779625777000,
+        "hashAlgorithm": "md5",
+        "md5": "6da7655fea61387fe45d37bd8d450deb"
+      },
       "src": "assets/gallery/full/凡人炼丹/凡人炼丹_13.webp",
       "thumb": "assets/gallery/thumbs/凡人炼丹/凡人炼丹_13.webp",
       "poster": null,
@@ -448,6 +628,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 00",
       "bytes": 175738968,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_00.mp4",
+        "bytes": 175738968,
+        "mtimeMs": 1779931345000,
+        "hashAlgorithm": "md5",
+        "md5": "19040bc64cad0e60cd92e011f7554574"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_00.mp4",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_00.webp",
       "poster": "assets/gallery/thumbs/别再出兵了/别再出兵了_00.webp",
@@ -465,6 +652,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 01",
       "bytes": 1544618,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_01.jpg",
+        "bytes": 1544618,
+        "mtimeMs": 1779932197000,
+        "hashAlgorithm": "md5",
+        "md5": "c1825736f6dea4f3bfbe4365b425c4d6"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_01.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_01.webp",
       "poster": null,
@@ -482,6 +676,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 02",
       "bytes": 1226659,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_02.jpg",
+        "bytes": 1226659,
+        "mtimeMs": 1779931632000,
+        "hashAlgorithm": "md5",
+        "md5": "5ed9682bbdb8a7859263fe23504531b5"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_02.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_02.webp",
       "poster": null,
@@ -499,6 +700,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 03",
       "bytes": 1491691,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_03.jpg",
+        "bytes": 1491691,
+        "mtimeMs": 1779932044000,
+        "hashAlgorithm": "md5",
+        "md5": "b45570c1b2092c1e50f08b642e391644"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_03.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_03.webp",
       "poster": null,
@@ -516,6 +724,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 04",
       "bytes": 1560793,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_04.jpg",
+        "bytes": 1560793,
+        "mtimeMs": 1779931585000,
+        "hashAlgorithm": "md5",
+        "md5": "dd897dc5b8f2bef50ff3545635222b7b"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_04.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_04.webp",
       "poster": null,
@@ -533,6 +748,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 05",
       "bytes": 1636923,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_05.jpg",
+        "bytes": 1636923,
+        "mtimeMs": 1779931507000,
+        "hashAlgorithm": "md5",
+        "md5": "0776092390a679a3b405ed385f4cbba6"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_05.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_05.webp",
       "poster": null,
@@ -550,6 +772,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 06",
       "bytes": 1037134,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_06.jpg",
+        "bytes": 1037134,
+        "mtimeMs": 1779624801000,
+        "hashAlgorithm": "md5",
+        "md5": "6c39588fdb7eb3205bfb63b7436bc941"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_06.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_06.webp",
       "poster": null,
@@ -567,6 +796,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 07",
       "bytes": 1388383,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_07.jpg",
+        "bytes": 1388383,
+        "mtimeMs": 1779624876000,
+        "hashAlgorithm": "md5",
+        "md5": "8c5c855b262dc78bdc78358607613f3e"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_07.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_07.webp",
       "poster": null,
@@ -584,6 +820,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 08",
       "bytes": 1398644,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_08.jpg",
+        "bytes": 1398644,
+        "mtimeMs": 1779624906000,
+        "hashAlgorithm": "md5",
+        "md5": "621eba538f99001de0d855e6fc26b80e"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_08.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_08.webp",
       "poster": null,
@@ -601,6 +844,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 09",
       "bytes": 1308162,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_09.jpg",
+        "bytes": 1308162,
+        "mtimeMs": 1779624963000,
+        "hashAlgorithm": "md5",
+        "md5": "d0574c7016d7f566d8c53b0d2dea7acf"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_09.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_09.webp",
       "poster": null,
@@ -618,6 +868,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 10",
       "bytes": 809977,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_10.jpg",
+        "bytes": 809977,
+        "mtimeMs": 1779624978000,
+        "hashAlgorithm": "md5",
+        "md5": "005e3c131ec4b70a26fbebe6a0215722"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_10.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_10.webp",
       "poster": null,
@@ -635,6 +892,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 11",
       "bytes": 1096684,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_11.jpg",
+        "bytes": 1096684,
+        "mtimeMs": 1779625009000,
+        "hashAlgorithm": "md5",
+        "md5": "b9c0f16f1ad7644d0f15c7415d9d7900"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_11.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_11.webp",
       "poster": null,
@@ -652,6 +916,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 12",
       "bytes": 1201470,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_12.jpg",
+        "bytes": 1201470,
+        "mtimeMs": 1779931723000,
+        "hashAlgorithm": "md5",
+        "md5": "d9340db15dec967fef430819fe66dbea"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_12.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_12.webp",
       "poster": null,
@@ -669,6 +940,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 13",
       "bytes": 1228824,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_13.jpg",
+        "bytes": 1228824,
+        "mtimeMs": 1779932077000,
+        "hashAlgorithm": "md5",
+        "md5": "3c98a28d9702329cc5a9d6d9d58104c3"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_13.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_13.webp",
       "poster": null,
@@ -686,6 +964,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 14",
       "bytes": 1151099,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_14.jpg",
+        "bytes": 1151099,
+        "mtimeMs": 1779932139000,
+        "hashAlgorithm": "md5",
+        "md5": "a7d8f0af05c1c84f9dd304f379de2f4e"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_14.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_14.webp",
       "poster": null,
@@ -703,6 +988,13 @@
       "folderPath": "别再出兵了",
       "title": "别再出兵了 15",
       "bytes": 1128387,
+      "sourceFile": {
+        "path": "别再出兵了/别再出兵了_15.jpg",
+        "bytes": 1128387,
+        "mtimeMs": 1779932148000,
+        "hashAlgorithm": "md5",
+        "md5": "5095b35b4aee4682a16711da356e56de"
+      },
       "src": "assets/gallery/full/别再出兵了/别再出兵了_15.webp",
       "thumb": "assets/gallery/thumbs/别再出兵了/别再出兵了_15.webp",
       "poster": null,
@@ -720,6 +1012,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 00",
       "bytes": 736090462,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_00.mp4",
+        "bytes": 736090462,
+        "mtimeMs": 1779928170000,
+        "hashAlgorithm": "md5",
+        "md5": "2912369618716a7dcc12c5e85a582a12"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_00.mp4",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_00.webp",
       "poster": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_00.webp",
@@ -737,6 +1036,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 01",
       "bytes": 79540651,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_01.mp4",
+        "bytes": 79540651,
+        "mtimeMs": 1779929100000,
+        "hashAlgorithm": "md5",
+        "md5": "5f6bde69b1af29c07959bf0f5c3b27a5"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_01.mp4",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_01.webp",
       "poster": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_01.webp",
@@ -754,6 +1060,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 02",
       "bytes": 31425657,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_02.mp4",
+        "bytes": 31425657,
+        "mtimeMs": 1779929443000,
+        "hashAlgorithm": "md5",
+        "md5": "e21dce1be358eeaad069d16649ee4e40"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_02.mp4",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_02.webp",
       "poster": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_02.webp",
@@ -771,6 +1084,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 03",
       "bytes": 116431856,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_03.mp4",
+        "bytes": 116431856,
+        "mtimeMs": 1779930234000,
+        "hashAlgorithm": "md5",
+        "md5": "ca106a73d43daf30045ff2c5fa8e6b3d"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_03.mp4",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_03.webp",
       "poster": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_03.webp",
@@ -788,6 +1108,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 04",
       "bytes": 91199108,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_04.mp4",
+        "bytes": 91199108,
+        "mtimeMs": 1779929952000,
+        "hashAlgorithm": "md5",
+        "md5": "37838d55ee8ed34fd958a48dcd1aa2e1"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_04.mp4",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_04.webp",
       "poster": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_04.webp",
@@ -805,6 +1132,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 05",
       "bytes": 2035197,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_05.jpg",
+        "bytes": 2035197,
+        "mtimeMs": 1779930492000,
+        "hashAlgorithm": "md5",
+        "md5": "5ca86a6319e75b71721b19606af5789d"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_05.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_05.webp",
       "poster": null,
@@ -822,6 +1156,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 06",
       "bytes": 1446177,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_06.jpg",
+        "bytes": 1446177,
+        "mtimeMs": 1779930499000,
+        "hashAlgorithm": "md5",
+        "md5": "6cf320a107009f4e7917c6cd7b9bce43"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_06.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_06.webp",
       "poster": null,
@@ -839,6 +1180,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 07",
       "bytes": 1713529,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_07.jpg",
+        "bytes": 1713529,
+        "mtimeMs": 1779930513000,
+        "hashAlgorithm": "md5",
+        "md5": "428d244ac309ac22c8ade9a1d2ae3507"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_07.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_07.webp",
       "poster": null,
@@ -856,6 +1204,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 08",
       "bytes": 1732083,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_08.jpg",
+        "bytes": 1732083,
+        "mtimeMs": 1779930523000,
+        "hashAlgorithm": "md5",
+        "md5": "e7104d41e0dfd67e74889bdac67fb706"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_08.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_08.webp",
       "poster": null,
@@ -873,6 +1228,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 09",
       "bytes": 1411021,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_09.jpg",
+        "bytes": 1411021,
+        "mtimeMs": 1779930532000,
+        "hashAlgorithm": "md5",
+        "md5": "1d1bc26695e7f1f5e0cc1d7ba8d13ce3"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_09.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_09.webp",
       "poster": null,
@@ -890,6 +1252,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 10",
       "bytes": 1346230,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_10.jpg",
+        "bytes": 1346230,
+        "mtimeMs": 1779930561000,
+        "hashAlgorithm": "md5",
+        "md5": "0f1037f13acd8963a4beaf98723bbc17"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_10.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_10.webp",
       "poster": null,
@@ -907,6 +1276,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 11",
       "bytes": 2168558,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_11.jpg",
+        "bytes": 2168558,
+        "mtimeMs": 1779930572000,
+        "hashAlgorithm": "md5",
+        "md5": "5d49579b49ce94d7bdb8cb5b68378a8a"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_11.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_11.webp",
       "poster": null,
@@ -924,6 +1300,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 12",
       "bytes": 1551839,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_12.jpg",
+        "bytes": 1551839,
+        "mtimeMs": 1779930587000,
+        "hashAlgorithm": "md5",
+        "md5": "e3118c1eb43857d42c4b70a07c0de909"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_12.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_12.webp",
       "poster": null,
@@ -941,6 +1324,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 13",
       "bytes": 1218291,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_13.jpg",
+        "bytes": 1218291,
+        "mtimeMs": 1779930596000,
+        "hashAlgorithm": "md5",
+        "md5": "5bcdcb156beb42456f762c8bff5f3cb5"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_13.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_13.webp",
       "poster": null,
@@ -958,6 +1348,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 14",
       "bytes": 767893,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_14.jpg",
+        "bytes": 767893,
+        "mtimeMs": 1779930605000,
+        "hashAlgorithm": "md5",
+        "md5": "4e1ed4c219ff8a794edc4a6e1de046ca"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_14.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_14.webp",
       "poster": null,
@@ -975,6 +1372,13 @@
       "folderPath": "古宅迷踪",
       "title": "古宅迷踪 15",
       "bytes": 2226847,
+      "sourceFile": {
+        "path": "古宅迷踪/古宅迷踪_15.jpg",
+        "bytes": 2226847,
+        "mtimeMs": 1779930623000,
+        "hashAlgorithm": "md5",
+        "md5": "452c8a546bcdfca3e218f045763e3b3e"
+      },
       "src": "assets/gallery/full/古宅迷踪/古宅迷踪_15.webp",
       "thumb": "assets/gallery/thumbs/古宅迷踪/古宅迷踪_15.webp",
       "poster": null,
@@ -992,6 +1396,13 @@
       "folderPath": "旧档",
       "title": "旧档 00",
       "bytes": 75914,
+      "sourceFile": {
+        "path": "旧档/旧档_00.webp",
+        "bytes": 75914,
+        "mtimeMs": 1779952119047.6895,
+        "hashAlgorithm": "md5",
+        "md5": "402516ff0849ba761e40d9e85779cf32"
+      },
       "src": "assets/gallery/full/旧档/旧档_00.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_00.webp",
       "poster": null,
@@ -1009,6 +1420,13 @@
       "folderPath": "旧档",
       "title": "旧档 01",
       "bytes": 7829254,
+      "sourceFile": {
+        "path": "旧档/旧档_01.mp4",
+        "bytes": 7829254,
+        "mtimeMs": 1779952210513.3867,
+        "hashAlgorithm": "md5",
+        "md5": "e7dbc5d451242f9b01f8b4162bdc95a8"
+      },
       "src": "assets/gallery/full/旧档/旧档_01.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_01.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_01.webp",
@@ -1026,6 +1444,13 @@
       "folderPath": "旧档",
       "title": "旧档 02",
       "bytes": 5952270,
+      "sourceFile": {
+        "path": "旧档/旧档_02.mp4",
+        "bytes": 5952270,
+        "mtimeMs": 1779952201645.3206,
+        "hashAlgorithm": "md5",
+        "md5": "ee654d7d3ffc2ae4f5bf2c779fefabe9"
+      },
       "src": "assets/gallery/full/旧档/旧档_02.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_02.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_02.webp",
@@ -1043,6 +1468,13 @@
       "folderPath": "旧档",
       "title": "旧档 03",
       "bytes": 3316157,
+      "sourceFile": {
+        "path": "旧档/旧档_03.mp4",
+        "bytes": 3316157,
+        "mtimeMs": 1779952265727.667,
+        "hashAlgorithm": "md5",
+        "md5": "4b583d3f0dcd7960fe54ddbdd3324f48"
+      },
       "src": "assets/gallery/full/旧档/旧档_03.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_03.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_03.webp",
@@ -1060,6 +1492,13 @@
       "folderPath": "旧档",
       "title": "旧档 04",
       "bytes": 6414543,
+      "sourceFile": {
+        "path": "旧档/旧档_04.mp4",
+        "bytes": 6414543,
+        "mtimeMs": 1779952200995.6108,
+        "hashAlgorithm": "md5",
+        "md5": "54e76e9522f2517f08d6b23d5df0e5cb"
+      },
       "src": "assets/gallery/full/旧档/旧档_04.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_04.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_04.webp",
@@ -1077,6 +1516,13 @@
       "folderPath": "旧档",
       "title": "旧档 05",
       "bytes": 11226612,
+      "sourceFile": {
+        "path": "旧档/旧档_05.mp4",
+        "bytes": 11226612,
+        "mtimeMs": 1779952197752.6748,
+        "hashAlgorithm": "md5",
+        "md5": "4b172aac5d50aa72f84f7ce0ba03af9e"
+      },
       "src": "assets/gallery/full/旧档/旧档_05.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_05.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_05.webp",
@@ -1094,6 +1540,13 @@
       "folderPath": "旧档",
       "title": "旧档 06",
       "bytes": 10040383,
+      "sourceFile": {
+        "path": "旧档/旧档_06.mp4",
+        "bytes": 10040383,
+        "mtimeMs": 1779952226661.593,
+        "hashAlgorithm": "md5",
+        "md5": "157c692f94a3e7f938265a834abc5ec7"
+      },
       "src": "assets/gallery/full/旧档/旧档_06.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_06.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_06.webp",
@@ -1111,6 +1564,13 @@
       "folderPath": "旧档",
       "title": "旧档 07",
       "bytes": 4354701,
+      "sourceFile": {
+        "path": "旧档/旧档_07.mp4",
+        "bytes": 4354701,
+        "mtimeMs": 1779952193881.295,
+        "hashAlgorithm": "md5",
+        "md5": "060005ebadd5c66aa14b317bcba87d8e"
+      },
       "src": "assets/gallery/full/旧档/旧档_07.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_07.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_07.webp",
@@ -1128,6 +1588,13 @@
       "folderPath": "旧档",
       "title": "旧档 08",
       "bytes": 48334,
+      "sourceFile": {
+        "path": "旧档/旧档_08.webp",
+        "bytes": 48334,
+        "mtimeMs": 1779952155062.6458,
+        "hashAlgorithm": "md5",
+        "md5": "9a5b80c5af3722c97c922d348abd705a"
+      },
       "src": "assets/gallery/full/旧档/旧档_08.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_08.webp",
       "poster": null,
@@ -1145,6 +1612,13 @@
       "folderPath": "旧档",
       "title": "旧档 09",
       "bytes": 92020,
+      "sourceFile": {
+        "path": "旧档/旧档_09.webp",
+        "bytes": 92020,
+        "mtimeMs": 1779952162181.3618,
+        "hashAlgorithm": "md5",
+        "md5": "ff22b7858759026e26c79e33fd465d5a"
+      },
       "src": "assets/gallery/full/旧档/旧档_09.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_09.webp",
       "poster": null,
@@ -1162,6 +1636,13 @@
       "folderPath": "旧档",
       "title": "旧档 10",
       "bytes": 7225351,
+      "sourceFile": {
+        "path": "旧档/旧档_10.mp4",
+        "bytes": 7225351,
+        "mtimeMs": 1779952195447.144,
+        "hashAlgorithm": "md5",
+        "md5": "f358d72ac3a6d6039715c5552c077d06"
+      },
       "src": "assets/gallery/full/旧档/旧档_10.mp4",
       "thumb": "assets/gallery/thumbs/旧档/旧档_10.webp",
       "poster": "assets/gallery/thumbs/旧档/旧档_10.webp",
@@ -1179,6 +1660,13 @@
       "folderPath": "旧档",
       "title": "旧档 11",
       "bytes": 48216,
+      "sourceFile": {
+        "path": "旧档/旧档_11.webp",
+        "bytes": 48216,
+        "mtimeMs": 1779952167464.7107,
+        "hashAlgorithm": "md5",
+        "md5": "55544fe6fe85dbf386d6092e383a472f"
+      },
       "src": "assets/gallery/full/旧档/旧档_11.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_11.webp",
       "poster": null,
@@ -1196,6 +1684,13 @@
       "folderPath": "旧档",
       "title": "旧档 12",
       "bytes": 60239,
+      "sourceFile": {
+        "path": "旧档/旧档_12.jpg",
+        "bytes": 60239,
+        "mtimeMs": 1779953111808.661,
+        "hashAlgorithm": "md5",
+        "md5": "c5b7d6a4e55402d0f186bfdc5f98d404"
+      },
       "src": "assets/gallery/full/旧档/旧档_12.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_12.webp",
       "poster": null,
@@ -1213,6 +1708,13 @@
       "folderPath": "旧档",
       "title": "旧档 13",
       "bytes": 133990,
+      "sourceFile": {
+        "path": "旧档/旧档_13.webp",
+        "bytes": 133990,
+        "mtimeMs": 1779952173080.9954,
+        "hashAlgorithm": "md5",
+        "md5": "91f8870e99d5eab6069b0ff27d298444"
+      },
       "src": "assets/gallery/full/旧档/旧档_13.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_13.webp",
       "poster": null,
@@ -1230,6 +1732,13 @@
       "folderPath": "旧档",
       "title": "旧档 14",
       "bytes": 123056,
+      "sourceFile": {
+        "path": "旧档/旧档_14.webp",
+        "bytes": 123056,
+        "mtimeMs": 1779952177951.6262,
+        "hashAlgorithm": "md5",
+        "md5": "94a849701cb012ef4e99631c6db9b500"
+      },
       "src": "assets/gallery/full/旧档/旧档_14.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_14.webp",
       "poster": null,
@@ -1247,6 +1756,13 @@
       "folderPath": "旧档",
       "title": "旧档 15",
       "bytes": 113316,
+      "sourceFile": {
+        "path": "旧档/旧档_15.webp",
+        "bytes": 113316,
+        "mtimeMs": 1779952201171.447,
+        "hashAlgorithm": "md5",
+        "md5": "a7c22af6a21720c517bb2500d62c421d"
+      },
       "src": "assets/gallery/full/旧档/旧档_15.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_15.webp",
       "poster": null,
@@ -1264,6 +1780,13 @@
       "folderPath": "旧档",
       "title": "旧档 16",
       "bytes": 108260,
+      "sourceFile": {
+        "path": "旧档/旧档_16.webp",
+        "bytes": 108260,
+        "mtimeMs": 1779952193428.8032,
+        "hashAlgorithm": "md5",
+        "md5": "6177030d7f809e3ed0ec673d531f748b"
+      },
       "src": "assets/gallery/full/旧档/旧档_16.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_16.webp",
       "poster": null,
@@ -1281,6 +1804,13 @@
       "folderPath": "旧档",
       "title": "旧档 17",
       "bytes": 41960,
+      "sourceFile": {
+        "path": "旧档/旧档_17.webp",
+        "bytes": 41960,
+        "mtimeMs": 1779952186975.1042,
+        "hashAlgorithm": "md5",
+        "md5": "ece76ab359c7fdb13d2585e6df5f58ec"
+      },
       "src": "assets/gallery/full/旧档/旧档_17.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_17.webp",
       "poster": null,
@@ -1298,6 +1828,13 @@
       "folderPath": "旧档",
       "title": "旧档 18",
       "bytes": 832948,
+      "sourceFile": {
+        "path": "旧档/旧档_18.jpg",
+        "bytes": 832948,
+        "mtimeMs": 1779954283000,
+        "hashAlgorithm": "md5",
+        "md5": "aaa3e899b9ddbe590342cf94884f814f"
+      },
       "src": "assets/gallery/full/旧档/旧档_18.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_18.webp",
       "poster": null,
@@ -1315,6 +1852,13 @@
       "folderPath": "旧档",
       "title": "旧档 19",
       "bytes": 70736,
+      "sourceFile": {
+        "path": "旧档/旧档_19.png",
+        "bytes": 70736,
+        "mtimeMs": 1779954314440.7253,
+        "hashAlgorithm": "md5",
+        "md5": "1f1fcf68b4ce15ffec68f98cbb931605"
+      },
       "src": "assets/gallery/full/旧档/旧档_19.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_19.webp",
       "poster": null,
@@ -1332,6 +1876,13 @@
       "folderPath": "旧档",
       "title": "旧档 20",
       "bytes": 66737,
+      "sourceFile": {
+        "path": "旧档/旧档_20.png",
+        "bytes": 66737,
+        "mtimeMs": 1779954323366.1797,
+        "hashAlgorithm": "md5",
+        "md5": "3c6fc5868da5d4d850f70143257c28d7"
+      },
       "src": "assets/gallery/full/旧档/旧档_20.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_20.webp",
       "poster": null,
@@ -1349,6 +1900,13 @@
       "folderPath": "旧档",
       "title": "旧档 21",
       "bytes": 68989,
+      "sourceFile": {
+        "path": "旧档/旧档_21.png",
+        "bytes": 68989,
+        "mtimeMs": 1779954328116.121,
+        "hashAlgorithm": "md5",
+        "md5": "8542fc5639e3de342240e5f8d1825f66"
+      },
       "src": "assets/gallery/full/旧档/旧档_21.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_21.webp",
       "poster": null,
@@ -1366,6 +1924,13 @@
       "folderPath": "旧档",
       "title": "旧档 22",
       "bytes": 46643,
+      "sourceFile": {
+        "path": "旧档/旧档_22.jpg",
+        "bytes": 46643,
+        "mtimeMs": 1779954362556.6333,
+        "hashAlgorithm": "md5",
+        "md5": "f889d5dc39ab54f3161bfe0580920fe1"
+      },
       "src": "assets/gallery/full/旧档/旧档_22.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_22.webp",
       "poster": null,
@@ -1383,6 +1948,13 @@
       "folderPath": "旧档",
       "title": "旧档 23",
       "bytes": 49283,
+      "sourceFile": {
+        "path": "旧档/旧档_23.jpg",
+        "bytes": 49283,
+        "mtimeMs": 1779954347346.5332,
+        "hashAlgorithm": "md5",
+        "md5": "75904b3640216d170cd75642f1408980"
+      },
       "src": "assets/gallery/full/旧档/旧档_23.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_23.webp",
       "poster": null,
@@ -1400,6 +1972,13 @@
       "folderPath": "旧档",
       "title": "旧档 24",
       "bytes": 43209,
+      "sourceFile": {
+        "path": "旧档/旧档_24.jpg",
+        "bytes": 43209,
+        "mtimeMs": 1779954354624.3623,
+        "hashAlgorithm": "md5",
+        "md5": "4891332ac5e0b8303e374165714ea35f"
+      },
       "src": "assets/gallery/full/旧档/旧档_24.webp",
       "thumb": "assets/gallery/thumbs/旧档/旧档_24.webp",
       "poster": null,
@@ -1409,6 +1988,78 @@
       "thumbHeight": 480,
       "fullBytes": 52496,
       "thumbBytes": 19714
+    },
+    {
+      "id": "image-sequence-001-0000-9f6a74e8",
+      "type": "image",
+      "folder": "星界弈盘",
+      "folderPath": "星界弈盘",
+      "title": "Image Sequence 001 0000",
+      "bytes": 94147,
+      "sourceFile": {
+        "path": "星界弈盘/Image Sequence_001_0000.jpg",
+        "bytes": 94147,
+        "mtimeMs": 1779959919344.4563,
+        "hashAlgorithm": "md5",
+        "md5": "fd2643bc9e36eb0f02df5016bc2cda48"
+      },
+      "src": "assets/gallery/full/星界弈盘/Image Sequence_001_0000.webp",
+      "thumb": "assets/gallery/thumbs/星界弈盘/Image Sequence_001_0000.webp",
+      "poster": null,
+      "width": 739,
+      "height": 1600,
+      "thumbWidth": 222,
+      "thumbHeight": 480,
+      "fullBytes": 58690,
+      "thumbBytes": 8038
+    },
+    {
+      "id": "image-sequence-002-0007-775c8e49",
+      "type": "image",
+      "folder": "星界弈盘",
+      "folderPath": "星界弈盘",
+      "title": "Image Sequence 002 0007",
+      "bytes": 173483,
+      "sourceFile": {
+        "path": "星界弈盘/Image Sequence_002_0007.jpg",
+        "bytes": 173483,
+        "mtimeMs": 1779960069852.218,
+        "hashAlgorithm": "md5",
+        "md5": "b049fbb1944bec40b763d2894c28ee40"
+      },
+      "src": "assets/gallery/full/星界弈盘/Image Sequence_002_0007.webp",
+      "thumb": "assets/gallery/thumbs/星界弈盘/Image Sequence_002_0007.webp",
+      "poster": null,
+      "width": 739,
+      "height": 1600,
+      "thumbWidth": 222,
+      "thumbHeight": 480,
+      "fullBytes": 142668,
+      "thumbBytes": 16774
+    },
+    {
+      "id": "movie-002-e9a10514",
+      "type": "video",
+      "folder": "星界弈盘",
+      "folderPath": "星界弈盘",
+      "title": "Movie 002",
+      "bytes": 71487027,
+      "sourceFile": {
+        "path": "星界弈盘/Movie_002.mp4",
+        "bytes": 71487027,
+        "mtimeMs": 1779959698596.751,
+        "hashAlgorithm": "md5",
+        "md5": "10e9da3e552a65c7a52b5f5e3b4649d0"
+      },
+      "src": "assets/gallery/full/星界弈盘/Movie_002.mp4",
+      "thumb": "assets/gallery/thumbs/星界弈盘/Movie_002.webp",
+      "poster": "assets/gallery/thumbs/星界弈盘/Movie_002.webp",
+      "width": 592,
+      "height": 1280,
+      "thumbWidth": 222,
+      "thumbHeight": 480,
+      "fullBytes": 3316826,
+      "thumbBytes": 14684
     }
   ]
 }

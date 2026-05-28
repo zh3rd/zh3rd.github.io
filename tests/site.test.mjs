@@ -111,6 +111,27 @@ test("gallery manifest uses lightweight thumbnails and optimized full images", a
   assert.ok(videoItems.every((item) => item.poster === null || item.poster.startsWith("assets/gallery/thumbs/")));
 });
 
+test("gallery manifest records source fingerprints for incremental reuse", async () => {
+  const script = await readText("scripts/init-gallery.mjs");
+  const manifest = JSON.parse(await readText("assets/data/gallery-manifest.json"));
+
+  assert.equal(manifest.config.sourceHashAlgorithm, "md5");
+  assert.match(script, /SOURCE_HASH_ALGORITHM = "md5"/);
+  assert.match(script, /readPreviousManifest/);
+  assert.match(script, /createPreviousManifestIndex/);
+  assert.match(script, /tryReuseCachedMedia/);
+  assert.match(script, /hashFile/);
+
+  for (const item of manifest.items) {
+    assert.ok(item.sourceFile);
+    assert.equal(item.sourceFile.hashAlgorithm, "md5");
+    assert.equal(item.sourceFile.bytes, item.bytes);
+    assert.match(item.sourceFile.path, /\S/);
+    assert.match(item.sourceFile.md5, /^[a-f0-9]{32}$/);
+    assert.ok(item.sourceFile.mtimeMs > 0);
+  }
+});
+
 test("gallery manifest gives videos generated WebP or JPG cover thumbnails", async () => {
   const manifest = JSON.parse(await readText("assets/data/gallery-manifest.json"));
   const videoItems = manifest.items.filter((item) => item.type === "video");
@@ -173,7 +194,9 @@ test("gallery initializer documents source and generated output paths", async ()
   assert.match(script, /VIDEO_OUTPUT_EXTENSION = "\.mp4"/);
   assert.match(script, /ffmpeg-static/);
   assert.match(script, /await copyFile\(RESUME_PDF_SOURCE, RESUME_PDF_OUTPUT\)/);
-  assert.match(script, /await rm\(GALLERY_DIR, \{ force: true, recursive: true \}\)/);
+  assert.match(script, /createGalleryBuildDirectory/);
+  assert.match(script, /publishGalleryBuild/);
+  assert.match(script, /cleanupGalleryBuild/);
   assert.match(script, /depth-first/i);
   assert.ok(packageJson.devDependencies.sharp);
   assert.ok(packageJson.devDependencies["ffmpeg-static"]);
