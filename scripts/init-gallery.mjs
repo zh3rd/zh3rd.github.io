@@ -31,7 +31,8 @@ const FULL_IMAGE_QUALITY = 84;
 const VIDEO_POSTER_FORMAT = "webp";
 const VIDEO_POSTER_CAPTURE_TIME = "00:00:00.200";
 const VIDEO_OUTPUT_EXTENSION = ".mp4";
-const VIDEO_FULL_MAX_WIDTH = 1280;
+const VIDEO_FULL_MAX_DIMENSION = 1280;
+const VIDEO_OUTPUT_FPS = 30;
 const VIDEO_CRF = "30";
 const VIDEO_PRESET = "medium";
 
@@ -58,7 +59,8 @@ const manifest = {
     videoPosterFormat: VIDEO_POSTER_FORMAT,
     videoPosterCaptureTime: VIDEO_POSTER_CAPTURE_TIME,
     videoOutputExtension: VIDEO_OUTPUT_EXTENSION,
-    videoFullMaxWidth: VIDEO_FULL_MAX_WIDTH,
+    videoFullMaxDimension: VIDEO_FULL_MAX_DIMENSION,
+    videoOutputFps: VIDEO_OUTPUT_FPS,
     videoCrf: VIDEO_CRF,
     videoPreset: VIDEO_PRESET,
   },
@@ -235,7 +237,7 @@ async function compressVideo(sourcePath, outputPath) {
     "0:v:0",
     "-an",
     "-vf",
-    `scale=w=min(${VIDEO_FULL_MAX_WIDTH}\\,iw):h=-2`,
+    `fps=${VIDEO_OUTPUT_FPS},scale=w=min(${VIDEO_FULL_MAX_DIMENSION}\\,iw):h=min(${VIDEO_FULL_MAX_DIMENSION}\\,ih):force_original_aspect_ratio=decrease:force_divisible_by=2`,
     "-c:v",
     "libx264",
     "-preset",
