@@ -174,9 +174,15 @@ test("gallery initializer compresses videos into generated MP4 assets", async ()
   assert.match(script, /VIDEO_FULL_MAX_DIMENSION = 1280/);
   assert.match(script, /VIDEO_OUTPUT_FPS = 30/);
   assert.match(script, /VIDEO_CRF = "30"/);
+  assert.match(script, /VIDEO_AUDIO_CODEC = "aac"/);
+  assert.match(script, /VIDEO_AUDIO_BITRATE = "128k"/);
   assert.match(script, /compressVideo/);
   assert.match(script, /"-c:v",\s*"libx264"/);
+  assert.match(script, /"0:a:0\?"/);
+  assert.match(script, /"-c:a",\s*VIDEO_AUDIO_CODEC/);
+  assert.match(script, /"-b:a",\s*VIDEO_AUDIO_BITRATE/);
   assert.match(script, /force_original_aspect_ratio=decrease/);
+  assert.doesNotMatch(script, /"-an"/);
   assert.doesNotMatch(script, /await copyFile\(sourcePath, outputPath\)/);
 
   assert.ok(videoItems.length > 0);

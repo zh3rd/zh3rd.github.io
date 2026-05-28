@@ -36,6 +36,8 @@ const VIDEO_FULL_MAX_DIMENSION = 1280;
 const VIDEO_OUTPUT_FPS = 30;
 const VIDEO_CRF = "30";
 const VIDEO_PRESET = "medium";
+const VIDEO_AUDIO_CODEC = "aac";
+const VIDEO_AUDIO_BITRATE = "128k";
 const SOURCE_HASH_ALGORITHM = "md5";
 const DIRECTORY_SORT_PREFIX_PATTERN = /^(\d+)[_-](.+)$/;
 const MANIFEST_CONFIG = {
@@ -51,6 +53,8 @@ const MANIFEST_CONFIG = {
   videoOutputFps: VIDEO_OUTPUT_FPS,
   videoCrf: VIDEO_CRF,
   videoPreset: VIDEO_PRESET,
+  videoAudioCodec: VIDEO_AUDIO_CODEC,
+  videoAudioBitrate: VIDEO_AUDIO_BITRATE,
   sourceHashAlgorithm: SOURCE_HASH_ALGORITHM,
 };
 
@@ -263,7 +267,8 @@ async function compressVideo(sourcePath, outputPath) {
     sourcePath,
     "-map",
     "0:v:0",
-    "-an",
+    "-map",
+    "0:a:0?",
     "-vf",
     `fps=${VIDEO_OUTPUT_FPS},scale=w=min(${VIDEO_FULL_MAX_DIMENSION}\\,iw):h=min(${VIDEO_FULL_MAX_DIMENSION}\\,ih):force_original_aspect_ratio=decrease:force_divisible_by=2`,
     "-c:v",
@@ -274,6 +279,10 @@ async function compressVideo(sourcePath, outputPath) {
     VIDEO_CRF,
     "-pix_fmt",
     "yuv420p",
+    "-c:a",
+    VIDEO_AUDIO_CODEC,
+    "-b:a",
+    VIDEO_AUDIO_BITRATE,
     "-movflags",
     "+faststart",
     outputPath,
