@@ -372,13 +372,22 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+function handleGalleryResize() {
+  if (galleryItems.length === 0 || !lightbox.hidden) {
+    return;
+  }
+
+  const nextColumnCount = calculateColumnCount();
+  if (nextColumnCount === currentColumnCount) {
+    return;
+  }
+
+  initializeGallery(Math.max(renderedItemCount, INITIAL_BATCH_SIZE));
+}
+
 window.addEventListener("resize", () => {
   window.clearTimeout(resizeTimer);
-  resizeTimer = window.setTimeout(() => {
-    if (galleryItems.length > 0 && lightbox.hidden) {
-      initializeGallery(Math.max(renderedItemCount, INITIAL_BATCH_SIZE));
-    }
-  }, 120);
+  resizeTimer = window.setTimeout(handleGalleryResize, 120);
 });
 
 loadGallery();

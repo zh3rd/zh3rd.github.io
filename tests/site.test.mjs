@@ -294,6 +294,15 @@ test("gallery client uses predictable responsive column breakpoints", async () =
 }
 );
 
+test("gallery client ignores mobile height-only resize while scrolling", async () => {
+  const script = await readText("assets/js/gallery.js");
+
+  assert.match(script, /function handleGalleryResize\(\)/);
+  assert.match(script, /const nextColumnCount = calculateColumnCount\(\)/);
+  assert.match(script, /if \(nextColumnCount === currentColumnCount\) \{\s*return;\s*\}/);
+  assert.match(script, /initializeGallery\(Math\.max\(renderedItemCount, INITIAL_BATCH_SIZE\)\)/);
+});
+
 test("site stylesheet defines paper and print behavior", async () => {
   const css = await readText("assets/css/site.css");
 
