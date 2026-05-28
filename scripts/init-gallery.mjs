@@ -37,6 +37,7 @@ const VIDEO_OUTPUT_FPS = 30;
 const VIDEO_CRF = "30";
 const VIDEO_PRESET = "medium";
 const SOURCE_HASH_ALGORITHM = "md5";
+const DIRECTORY_SORT_PREFIX_PATTERN = /^(\d+)[_-](.+)$/;
 const MANIFEST_CONFIG = {
   imageFormat: "webp",
   thumbnailWidth: THUMBNAIL_WIDTH,
@@ -150,7 +151,7 @@ async function copyResumePdf() {
 // Depth-first traversal: each directory is completed before moving to its sorted siblings.
 async function walkDepthFirst(directory, segments) {
   const entries = await readdir(directory, { withFileTypes: true });
-  const directories = entries.filter((entry) => entry.isDirectory()).sort(compareEntries);
+  const directories = entries.filter((entry) => entry.isDirectory()).map(createDirectoryEntry).sort(compareDirectoryEntries);
   const files = entries.filter((entry) => entry.isFile() && getMediaType(entry.name)).sort(compareEntries);
 
   for (const file of files) {
@@ -158,7 +159,7 @@ async function walkDepthFirst(directory, segments) {
   }
 
   for (const childDirectory of directories) {
-    await walkDepthFirst(path.join(directory, childDirectory.name), [...segments, childDirectory.name]);
+    await walkDepthFirst(path.join(directory, childDirectory.name), [...segments, childDirectory.displayName]);
   }
 }
 
@@ -166,7 +167,7 @@ async function addMediaFile(directory, segments, fileName) {
   const type = getMediaType(fileName);
   const sourcePath = path.join(directory, fileName);
   const sourceStat = await stat(sourcePath);
-  const sourceFile = await createSourceFileInfo(sourcePath, sourceStat);
+  const sourceFile = await createSourceFileInfo(sourcePath, sourceStat, segments, fileName);
 
   const cachedItem = await tryReuseCachedMedia(type, sourceFile, segments, fileName);
   if (cachedItem) {
@@ -426,9 +427,9 @@ async function retryFileOperation(operation) {
   throw lastError;
 }
 
-async function createSourceFileInfo(sourcePath, sourceStat) {
+async function createSourceFileInfo(sourcePath, sourceStat, segments, fileName) {
   return {
-    path: path.relative(SOURCE_DIR, sourcePath).split(path.sep).join("/"),
+    path: [...segments, fileName].join("/"),
     bytes: sourceStat.size,
     mtimeMs: sourceStat.mtimeMs,
     hashAlgorithm: SOURCE_HASH_ALGORITHM,
@@ -616,6 +617,35 @@ function createId(relativePath) {
   return `${slug || "gallery-item"}-${hash}`;
 }
 
+function createDirectoryEntry(entry) {
+  const match = entry.name.match(DIRECTORY_SORT_PREFIX_PATTERN);
+  const displayName = match ? match[2] : entry.name;
+
+  return {
+    name: entry.name,
+    displayName,
+    sortIndex: match ? Number.parseInt(match[1], 10) : Number.POSITIVE_INFINITY,
+    sortName: displayName,
+  };
+}
+
+function compareDirectoryEntries(a, b) {
+  if (a.sortIndex !== b.sortIndex) {
+    return a.sortIndex - b.sortIndex;
+  }
+
+  const displayCompare = compareNames(a.sortName, b.sortName);
+  if (displayCompare !== 0) {
+    return displayCompare;
+  }
+
+  return compareNames(a.name, b.name);
+}
+
 function compareEntries(a, b) {
-  return a.name === b.name ? 0 : a.name < b.name ? -1 : 1;
+  return compareNames(a.name, b.name);
+}
+
+function compareNames(a, b) {
+  return a === b ? 0 : a < b ? -1 : 1;
 }

@@ -85,13 +85,29 @@ test("gallery manifest keeps generated media in depth-first folder order", async
   assert.ok(items.every((item) => item.src.startsWith("assets/gallery/full/")));
 
   const folderOrder = [...new Set(items.map((item) => item.folderPath.split("/")[0]))];
-  const expectedOrder = [...folderOrder].sort();
-  assert.deepEqual(folderOrder, expectedOrder);
-  assert.equal(folderOrder[0], "BeaverBlade");
+  assert.deepEqual(folderOrder, ["BeaverBlade", "别再出兵了", "凡人炼丹", "古宅迷踪", "星界弈盘", "旧档"]);
 
   const firstDifferentFolder = items.findIndex((item) => item.folderPath.split("/")[0] !== folderOrder[0]);
   assert.ok(firstDifferentFolder > 0);
   assert.ok(items.slice(firstDifferentFolder).every((item) => item.folderPath.split("/")[0] !== folderOrder[0]));
+});
+
+test("gallery initializer uses numeric directory prefixes only for sorting", async () => {
+  const script = await readText("scripts/init-gallery.mjs");
+  const manifest = JSON.parse(await readText("assets/data/gallery-manifest.json"));
+
+  assert.match(script, /DIRECTORY_SORT_PREFIX_PATTERN/);
+  assert.match(script, /createDirectoryEntry/);
+  assert.match(script, /sortName/);
+  assert.match(script, /displayName/);
+
+  for (const item of manifest.items) {
+    assert.doesNotMatch(item.folderPath, /(?:^|\/)\d{2}_/);
+    assert.doesNotMatch(item.folder, /^\d{2}_/);
+    assert.doesNotMatch(item.sourceFile.path, /(?:^|\/)\d{2}_/);
+    assert.doesNotMatch(item.src, /(?:^|\/)\d{2}_/);
+    assert.doesNotMatch(item.thumb, /(?:^|\/)\d{2}_/);
+  }
 });
 
 test("gallery manifest uses lightweight thumbnails and optimized full images", async () => {
