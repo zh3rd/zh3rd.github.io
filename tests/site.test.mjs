@@ -19,6 +19,18 @@ test("home page is a standalone playful landing without personal details", async
 }
 );
 
+test("published pages opt out of crawler indexing", async () => {
+  const robotsMeta = /<meta name="robots" content="noindex, nofollow">/;
+
+  for (const path of ["index.html", "resume.html", "gallery.html"]) {
+    assert.match(await readText(path), robotsMeta);
+  }
+
+  const robots = await readText("robots.txt");
+  assert.match(robots, /^User-agent: \*$/m);
+  assert.match(robots, /^Disallow: \/$/m);
+});
+
 test("resume page exposes the expected static-site contract", async () => {
   const html = await readText("resume.html");
 
