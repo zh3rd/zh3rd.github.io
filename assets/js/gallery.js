@@ -10,6 +10,7 @@ const nextButton = document.querySelector("[data-lightbox-next]");
 const EAGER_CARD_COUNT = 4;
 const INITIAL_BATCH_SIZE = 15;
 const SCROLL_BATCH_SIZE = 8;
+const DESKTOP_PROGRESSIVE_BATCH_SIZE = 1;
 const LOAD_MORE_AHEAD_PX = 360;
 const LOAD_MORE_ROOT_MARGIN = "360px 0px";
 const COLUMN_HEIGHT_TOLERANCE = 1;
@@ -35,6 +36,7 @@ let currentColumnCount = 0;
 let columns = [];
 let loadMoreObserver = null;
 let loadMoreSentinel = null;
+let desktopRenderFrame = 0;
 
 async function loadGallery() {
   try {
@@ -55,6 +57,7 @@ async function loadGallery() {
 
 function initializeGallery(targetRenderCount = INITIAL_BATCH_SIZE) {
   disconnectLoadMoreObserver();
+  cancelDesktopAutoRender();
   grid.textContent = "";
   renderedItemCount = 0;
   columns = [];
@@ -69,12 +72,16 @@ function initializeGallery(targetRenderCount = INITIAL_BATCH_SIZE) {
 
   currentColumnCount = calculateColumnCount();
   columns = createMasonryColumns(currentColumnCount);
-  loadMoreSentinel = createLoadMoreSentinel();
+  loadMoreSentinel = isMobileViewport() ? createLoadMoreSentinel() : null;
 
   grid.style.setProperty("--gallery-columns", currentColumnCount);
   grid.append(...columns.map((column) => column.element));
   renderNextBatch(targetRenderCount);
-  observeLoadMoreSentinel();
+  if (isMobileViewport()) {
+    observeLoadMoreSentinel();
+    return;
+  }
+  scheduleDesktopAutoRender();
 }
 
 function renderNextBatch(batchSize = SCROLL_BATCH_SIZE) {
@@ -82,7 +89,9 @@ function renderNextBatch(batchSize = SCROLL_BATCH_SIZE) {
     return;
   }
 
-  loadMoreSentinel.remove();
+  if (loadMoreSentinel) {
+    loadMoreSentinel.remove();
+  }
   syncColumnHeightsFromLayout();
 
   const nextItems = galleryItems.slice(renderedItemCount, renderedItemCount + batchSize);
@@ -160,6 +169,27 @@ function loadMoreOnScroll() {
   if (loadMoreSentinel.getBoundingClientRect().top < window.innerHeight + LOAD_MORE_AHEAD_PX) {
     renderNextBatch();
   }
+}
+
+function scheduleDesktopAutoRender() {
+  if (desktopRenderFrame || renderedItemCount >= galleryItems.length) {
+    return;
+  }
+
+  desktopRenderFrame = window.requestAnimationFrame(() => {
+    desktopRenderFrame = 0;
+    renderNextBatch(DESKTOP_PROGRESSIVE_BATCH_SIZE);
+    scheduleDesktopAutoRender();
+  });
+}
+
+function cancelDesktopAutoRender() {
+  if (!desktopRenderFrame) {
+    return;
+  }
+
+  window.cancelAnimationFrame(desktopRenderFrame);
+  desktopRenderFrame = 0;
 }
 
 function updateLoadMoreSentinel() {

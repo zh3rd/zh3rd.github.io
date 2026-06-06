@@ -294,6 +294,19 @@ test("gallery client appends masonry cards in scroll-sized batches", async () =>
   assert.doesNotMatch(script, /renderGallery\(galleryItems\)/);
 });
 
+test("gallery client scroll-loads mobile and progressively fills desktop", async () => {
+  const script = await readText("assets/js/gallery.js");
+
+  assert.match(script, /DESKTOP_PROGRESSIVE_BATCH_SIZE = 1/);
+  assert.match(script, /let desktopRenderFrame = 0/);
+  assert.match(script, /if \(isMobileViewport\(\)\) \{\s*observeLoadMoreSentinel\(\);\s*return;\s*\}\s*scheduleDesktopAutoRender\(\);/s);
+  assert.match(script, /function scheduleDesktopAutoRender\(\)/);
+  assert.match(script, /requestAnimationFrame/);
+  assert.match(script, /renderNextBatch\(DESKTOP_PROGRESSIVE_BATCH_SIZE\)/);
+  assert.match(script, /function cancelDesktopAutoRender\(\)/);
+  assert.match(script, /cancelAnimationFrame\(desktopRenderFrame\)/);
+});
+
 test("gallery client uses predictable responsive column breakpoints", async () => {
   const script = await readText("assets/js/gallery.js");
 
